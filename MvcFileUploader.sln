@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleMvcApp", "SampleMvcApp\SampleMvcApp.csproj", "{F8304A7E-FE78-4CE3-B97C-3A37A31D4143}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MvcFileUploader", "MvcFileUploader\MvcFileUploader.csproj", "{10BC1034-BD5C-4FBF-8E3A-05DDF07C4269}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F8304A7E-FE78-4CE3-B97C-3A37A31D4143}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F8304A7E-FE78-4CE3-B97C-3A37A31D4143}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F8304A7E-FE78-4CE3-B97C-3A37A31D4143}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F8304A7E-FE78-4CE3-B97C-3A37A31D4143}.Release|Any CPU.Build.0 = Release|Any CPU
+		{10BC1034-BD5C-4FBF-8E3A-05DDF07C4269}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{10BC1034-BD5C-4FBF-8E3A-05DDF07C4269}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{10BC1034-BD5C-4FBF-8E3A-05DDF07C4269}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{10BC1034-BD5C-4FBF-8E3A-05DDF07C4269}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

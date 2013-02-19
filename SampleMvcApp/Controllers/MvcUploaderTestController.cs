@@ -3,7 +3,7 @@ using System.Web.Mvc;
 using MvcFileUploader;
 using MvcFileUploader.Models;
 
-namespace MvcMusicStore.Controllers
+namespace SampleMvcApp.Controllers
 {
     public class MvcUploaderTestController : Controller
     {

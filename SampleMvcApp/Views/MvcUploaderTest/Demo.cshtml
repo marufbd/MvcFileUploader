@@ -7,11 +7,23 @@
 
 <div class="well">
     <legend>Upload Dialog</legend>        
-    @Html.MvcUploadButton("Upload Image Button", "#dlgFileUpload", Url.Action("UploadFile"), Request.Url.PathAndQuery, @"/(\.|\/)(jpe?g|png)$/i", 5000000, new {@class="btn"})
+    @Html.MvcUploadButton("Upload Image Button", "#dlgFileUpload", Url.Action("UploadFile"), null, @"/(\.|\/)(jpe?g|png)$/i", 5000000, new {@class="btn"})
 </div>
 
+
+<div class="well">
+    <legend>Upload Dialog with return url on closing</legend>        
+    @Html.MvcUploadButton("Upload Image Button", "#dlgFileUpload", Url.Action("UploadFile"), Request.Url.PathAndQuery, @"/(\.|\/)(jpe?g|png)$/i", 5000000, new {@class="btn"})
+</div>
 
 <!-- file upload modal dialog -->
 <div class="modal hide" id="dlgFileUpload" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-body"></div>
+</div>
+
+
+
+<div class="well">
+    <legend>Upload Inline</legend>        
+    @Html.Partial("_FileUploadDialog", new FileUploadConfig() { FileTypes = @"/(\.|\/)(jpe?g|png)$/i", MaxFileSizeInBytes = 5000000, UploadUrl = Url.Action("UploadFile") })
 </div>

@@ -6,7 +6,7 @@
     <authors>maruf</authors>
     <owners>maruf</owners>
     <licenseUrl>http://opensource.org/licenses/MIT</licenseUrl>
-    <projectUrl>http://freakin-mind.blogspot.com</projectUrl>    
+    <projectUrl>https://github.com/marufbd/MvcFileUploader</projectUrl>    
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Easy file upload integration in mvc application with JQuery File Upload javascript plugin and Html helpers</description>
     <releaseNotes>This is the first release.</releaseNotes>

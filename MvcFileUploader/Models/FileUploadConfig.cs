@@ -13,5 +13,7 @@ namespace MvcFileUploader.Models
         public long MaxFileSizeInBytes { get; set; } // in bytes
 
         public string UploadUrl { get; set; }
+
+        public bool IsDialog { get; set; }
     }
 }

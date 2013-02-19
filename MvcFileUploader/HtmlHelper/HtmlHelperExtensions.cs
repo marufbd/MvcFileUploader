@@ -23,7 +23,7 @@ namespace MvcFileUploader.HtmlHelper
         /// <param name="returnUrl">The return URL.</param>
         /// <param name="htmlAttributes">html attributes for link </param>
         /// <returns></returns>
-        public static IHtmlString MvcUploadButton<TModel>(this HtmlHelper<TModel> helper, string labelText, string dataTarget, string uploadUrl, string returnUrl, string fileTypes = @"/(\.|\/)(jpe?g|png)$/i", uint maxFileSize=5000000, object htmlAttributes=null)
+        public static IHtmlString MvcUploadButton<TModel>(this HtmlHelper<TModel> helper, string labelText, string dataTarget, string uploadUrl, string returnUrl=null, string fileTypes = @"/(\.|\/)(jpe?g|png)$/i", uint maxFileSize=5000000, object htmlAttributes=null)
         {
             var tag = new TagBuilder("a");
 
@@ -34,9 +34,11 @@ namespace MvcFileUploader.HtmlHelper
                                                 new
                                                     {
                                                         UploadUrl = uploadUrl,
-                                                        ReturnUrl = String.IsNullOrEmpty(returnUrl)?helper.ViewContext.RequestContext.HttpContext.Request.Url.ToString():returnUrl,
+                                                        //ReturnUrl = String.IsNullOrEmpty(returnUrl)?helper.ViewContext.RequestContext.HttpContext.Request.Url.ToString():returnUrl,
+                                                        ReturnUrl = returnUrl,
                                                         MaxFileSizeInBytes = maxFileSize,
-                                                        FileTypes = fileTypes
+                                                        FileTypes = fileTypes,
+                                                        IsDialog=true
                                                     }));
 
             tag.Attributes.Add("role", "button");

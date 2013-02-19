@@ -1,16 +1,19 @@
 ﻿@model MvcFileUploader.Models.FileUploadConfig
-
+@{
+    var formId = "fileupload" + (new Random()).Next(1, 10);
+    var fileInputId = "file" + (new Random()).Next(11, 20);
+}
         
 <!-- file upload modal dialog -->
 
-    <form id="fileupload" action="@Model.UploadUrl" method="POST" enctype="multipart/form-data">
+    <form id="@formId" action="@Model.UploadUrl" method="POST" enctype="multipart/form-data">
         @*@Html.Hidden("entityId", Model.EntityId)*@
         <div class="modal-header">  
             <div class="btn-group fileupload-buttonbar">
                 <span class="btn btn-success fileinput-button">
                     <i class="icon-plus icon-white"></i>
                     <span>Add files...</span>
-                    <input type="file" name="files[]" multiple>
+                    <input type="file" name="@fileInputId" multiple>
                 </span>
                 <button type="submit" class="btn btn-primary start">
                     <i class="icon-upload icon-white"></i>
@@ -24,7 +27,14 @@
                     <i class="icon-trash icon-white"></i>
                     <span>Delete</span>
                 </button>
-                <a href='@Model.ReturnUrl' type="button" class="pull-right close">&times;</a>
+                @if(Model.IsDialog && !String.IsNullOrEmpty(Model.ReturnUrl))
+                {
+                    <a href='@Model.ReturnUrl' type="button" class="pull-right close">&times;</a>
+                } 
+                else if(Model.IsDialog && String.IsNullOrEmpty(Model.ReturnUrl))
+                {
+                    <a href='#' type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</a>
+                } 
             </div>
             <!-- The global progress information -->
             <div class="fileupload-progress fade">                
@@ -120,9 +130,9 @@
 
     
         // Initialize the jQuery File Upload widget:
-        $('#fileupload').fileupload();
+        $('#@(formId)').fileupload();
 
-        $('#fileupload').fileupload('option', {
+        $('#@(formId)').fileupload('option', {
             maxFileSize: @Model.MaxFileSizeInBytes,
             resizeMaxWidth: 1920,
             resizeMaxHeight: 1200,

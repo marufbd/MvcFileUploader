@@ -25,6 +25,10 @@ namespace SampleMvcApp.Controllers
 
             //statuses contains all the uploaded files details (if error occurs the check error property is not null or empty)
             //todo: add additional code to generate thumbnail for videos, associate files with entities etc
+            
+            //adding thumbnail url for jquery file upload javascript plugin
+            statuses.ForEach(x=>x.thumbnail_url=x.url+"?width=80&height=80"); // uses ImageResizer httpmodule to resize images from this url
+
 
             return result;
         }

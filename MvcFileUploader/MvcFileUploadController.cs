@@ -16,12 +16,9 @@ namespace MvcFileUploader
         }
 
         public ActionResult UploadDialog(FileUploadConfig uploadConfig)
-        {
-            return PartialView("_FileUploadDialog", uploadConfig);
+        { 
+            return PartialView("_MvcFileUpload", uploadConfig);
         }
-
-
-
 
     }
 }

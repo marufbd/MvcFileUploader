@@ -17,7 +17,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>..\Nuget\MvcFileUploader\lib\40\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -45,6 +45,7 @@
   <ItemGroup>
     <Compile Include="FileSaver.cs" />
     <Compile Include="HtmlHelper\HtmlHelperExtensions.cs" />
+    <Compile Include="Models\MvcFileSave.cs" />
     <Compile Include="Models\ViewDataUploadFileResult.cs" />
     <Compile Include="Models\FileUploadConfig.cs" />
     <Compile Include="MvcFileUploadController.cs" />

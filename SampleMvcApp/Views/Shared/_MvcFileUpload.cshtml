@@ -7,7 +7,7 @@
 <!-- file upload modal dialog -->
 
     <form id="@formId" action="@Model.UploadUrl" method="POST" enctype="multipart/form-data">
-        @*@Html.Hidden("entityId", Model.EntityId)*@
+        
         <div class="modal-header">  
             <div class="btn-group fileupload-buttonbar">
                 <span class="btn btn-success fileinput-button">
@@ -45,6 +45,12 @@
         <div class="modal-body">
             <table class="table table-striped"><tbody class="files" data-toggle="modal-gallery" data-target="#modal-gallery"></tbody></table>
         </div>        
+        
+        <!-- Additional values to be posted -->
+        @foreach(var postItem in Model.PostValuesWithUpload)
+        {
+            @Html.Hidden(postItem.Key, postItem.Value)
+        }
     </form>
 
     

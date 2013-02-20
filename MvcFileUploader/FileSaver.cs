@@ -13,77 +13,73 @@ namespace MvcFileUploader
 {
     public class FileSaver
     {
-        public static List<ViewDataUploadFileResult> StoreWholeFile(HttpRequestBase request, string storageRoot, string urlPrefix, string deleteUri=null, object deleteUriRouteValues=null)
+        public static List<ViewDataUploadFileResult> StoreFiles(IEnumerable<MvcFileSave> mvcFiles)
         {
-            var statuses = new List<ViewDataUploadFileResult>();
+            return mvcFiles.Select(x => StoreFile(delegate(MvcFileSave f)
+                                                      {
+                                                          if (f == null) throw new ArgumentNullException("MvcFileSave");
+                                                          f = x;
+                                                      })).ToList();
+        }
 
-            var dirInfo = new DirectoryInfo(storageRoot);
 
-            for (int i = 0; i < request.Files.Count; i++)
+        public static ViewDataUploadFileResult StoreFile(Action<MvcFileSave> action)
+        {
+            var mvcFile = new MvcFileSave();
+            action(mvcFile);
+            
+            ViewDataUploadFileResult status;
+            
+            var dirInfo = new DirectoryInfo(mvcFile.StorageDirectory);
+            var file = mvcFile.File;
+            var fileExtension = Path.GetExtension(mvcFile.File.FileName);
+            var fileName = Path.GetFileNameWithoutExtension(mvcFile.File.FileName);
+            var genName = fileName + "-" + DateTime.Now.ToFileTimeUtc();
+            var genFileName = genName + fileExtension;
+            var fullPath = Path.Combine(mvcFile.StorageDirectory, genFileName);
+
+            try
             {
-                //bool error = false; // indicates any error happened on processing
+                mvcFile.File.SaveAs(fullPath);
 
-                var file = request.Files[i];
-
-                var fileExtension = Path.GetExtension(file.FileName);
-                var fileName = Path.GetFileNameWithoutExtension(file.FileName);
-                var genName = fileName + "-" + DateTime.Now.ToFileTimeUtc();
-                var genFileName = genName + fileExtension;
-                var fullPath = Path.Combine(storageRoot, genFileName);
-
-                try
+                var viewDataUploadFileResult = new ViewDataUploadFileResult()
                 {
-                    file.SaveAs(fullPath);                    
+                    name = file.FileName,
+                    size = file.ContentLength,
+                    type = file.ContentType,
+                    url = mvcFile.UrlPrefix + "/" + genFileName,
+                    //delete_url = Url.Action("DeleteFile", new { fileUrl = "/"+storageRoot+"/" + genFileName }),
+                    //thumbnail_url = thumbUrl + "?width=100",
+                    delete_type = "POST",
+                    title = fileName,
 
-                    statuses.Add(new ViewDataUploadFileResult()
-                    {
-                        name = file.FileName,
-                        size = file.ContentLength,
-                        type = file.ContentType,
-                        url = urlPrefix +"/"+ genFileName,
-                        //delete_url = Url.Action("DeleteFile", new { fileUrl = "/"+storageRoot+"/" + genFileName }),
-                        //thumbnail_url = thumbUrl + "?width=100",
-                        delete_type = "POST",
-                        title = fileName,
+                    //for controller use
+                    fullpath = dirInfo.FullName + "/" + genFileName
+                };
 
-                        //for controller use
-                        fullpath = dirInfo.FullName + "/" + genFileName
-                    });
-                }
-                catch (Exception exc)
-                {
-                    statuses.Add(new ViewDataUploadFileResult()
-                                 {
-                                     error = "error: "+exc.Message,
-                                     name = file.FileName,
-                                     size = file.ContentLength,
-                                     type = file.ContentType,
-                                     title = fileName
-                                 });                    
-                } 
+                //add delete url                           
+                mvcFile.AddFileUriParamToDeleteUrl("fileUrl", viewDataUploadFileResult.url);
+                viewDataUploadFileResult.delete_url = mvcFile.DeleteUrl;
+                
+
+                status = viewDataUploadFileResult;
             }
-
-
-            //add delete_urls
-            if(deleteUri!=null)
+            catch (Exception exc)
             {
-                var uri = deleteUri;
-                foreach (var status in statuses)
+                status=new ViewDataUploadFileResult()
                 {
-                    uri += "?fileUri=" + status.url;
-                    
-                    if(deleteUriRouteValues!=null)
-                        deleteUriRouteValues.GetType().GetProperties().ToList().ForEach(
-                            x => uri += "&" + x.Name + "=" + x.GetValue(deleteUriRouteValues, null).ToString());
-
-                    status.delete_url = uri;
-                } 
+                    error = "error: " + exc.Message,
+                    name = file.FileName,
+                    size = file.ContentLength,
+                    type = file.ContentType,
+                    title = fileName
+                };
             }            
 
-            return statuses;
+            return status;
         } 
-
-    }
-
+    
+    
+    } 
     
 }

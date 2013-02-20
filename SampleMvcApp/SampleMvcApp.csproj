@@ -39,9 +39,6 @@
       <HintPath>..\packages\ImageResizer.3.3.2\lib\ImageResizer.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="MvcFileUploader, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MvcFileUploader.1.0.0\lib\40\MvcFileUploader.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.Entity" />
@@ -216,10 +213,16 @@
     <Content Include="Views\Shared\_MvcFileUploaderLayout.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Shared\_FileUploadDialog.cshtml" />
+    <Content Include="Views\Shared\_MvcFileUpload.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\MvcUploaderTest\Demo.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MvcFileUploader\MvcFileUploader.csproj">
+      <Project>{10BC1034-BD5C-4FBF-8E3A-05DDF07C4269}</Project>
+      <Name>MvcFileUploader</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

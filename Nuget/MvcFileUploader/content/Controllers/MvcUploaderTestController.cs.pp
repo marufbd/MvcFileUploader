@@ -15,7 +15,7 @@ namespace $rootnamespace$.Controllers
             return View();
         }
 
-        public ActionResult UploadFile()
+        public ActionResult UploadFile(int? entityId) // optionally receive values specified with Html helper
         {
             // here we can send in some extra info to be included with the delete url 
             var statuses=new List<ViewDataUploadFileResult>();
@@ -24,7 +24,9 @@ namespace $rootnamespace$.Controllers
                 var st = FileSaver.StoreFile(x=>
                                                  {
                                                      x.File = Request.Files[i];
-                                                     x.DeleteUrl = Url.Action("DeleteFile", new {entityId = 123});
+                                                     //note how we are adding an additional value to be posted with delete request
+                                                     //and giving it the same value posted with upload
+                                                     x.DeleteUrl = Url.Action("DeleteFile", new {entityId = entityId});
                                                      x.StorageDirectory = Server.MapPath("~/Content/uploads");
                                                      x.UrlPrefix = "/Content/uploads";
                                                  });
@@ -36,7 +38,7 @@ namespace $rootnamespace$.Controllers
             //todo: add additional code to generate thumbnail for videos, associate files with entities etc
             
             //adding thumbnail url for jquery file upload javascript plugin
-            statuses.ForEach(x=>x.thumbnail_url=x.url+"?width=80&height=80"); // uses ImageResizer httpmodule to resize images from this url
+            //statuses.ForEach(x=>x.thumbnail_url=x.url+"?width=80&height=80"); // uses ImageResizer httpmodule to resize images from this url
 
 
             return Json(statuses);
@@ -45,9 +47,9 @@ namespace $rootnamespace$.Controllers
 
 
         //here i am receving the extra info injected
-        public ActionResult DeleteFile(int entityId, string fileUri)
+        public ActionResult DeleteFile(int? entityId, string fileUrl)
         {
-            var filePath = Server.MapPath("~" + fileUri);
+            var filePath = Server.MapPath("~" + fileUrl);
 
             if(System.IO.File.Exists(filePath))
                 System.IO.File.Delete(filePath);

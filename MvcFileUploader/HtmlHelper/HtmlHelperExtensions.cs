@@ -53,10 +53,12 @@ namespace MvcFileUploader.HtmlHelper
                                                                                 });
             if (postValues != null)
             {
-                foreach (var prop in postValues.GetType().GetProperties().ToList())
+                var props = postValues.GetType().GetProperties().ToList();
+                for (var i = 0; i < props.Count;i++)
                 {
-                    linkUrl += String.Format("&uploadConfig.PostValuesWithUpload{0}.Key={1}", "[0]", HttpUtility.UrlEncode(prop.Name));
-                    linkUrl += String.Format("&uploadConfig.PostValuesWithUpload{0}.Value={1}", "[0]", HttpUtility.UrlEncode(prop.GetValue(postValues, null).ToString()));
+                    var prop = props[i];
+                    linkUrl += String.Format("&PostValuesWithUpload[{0}].Key={1}", i, HttpUtility.UrlEncode(prop.Name));
+                    linkUrl += String.Format("&PostValuesWithUpload[{0}].Value={1}", i, HttpUtility.UrlEncode(prop.GetValue(postValues, null).ToString()));
                 }
             }
 

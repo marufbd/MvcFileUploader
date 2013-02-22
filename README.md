@@ -6,7 +6,7 @@ A nuget package for easy blueimp JQuery file upload plugin integration into an A
 
 Utilises:
 	* [jQuery File Upload plugin](http://blueimp.github.com/jQuery-File-Upload/)  
-	* [twitter bootstrap](http://twitter.github.com/bootstrap/) for modal dialog
+	* [twitter bootstrap](http://twitter.github.com/bootstrap/) for javascript for modal dialog load from ajax
 
 
 MvcFileUploader Provides Html helper and file saving utility to keep your code clean

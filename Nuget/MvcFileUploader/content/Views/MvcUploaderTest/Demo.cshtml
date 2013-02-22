@@ -7,7 +7,7 @@
 
 <div class="well">
     <legend>Upload Dialog</legend>        
-    @Html.MvcUploadButton("Upload Image Button", "#dlgFileUpload", Url.Action("UploadFile"), null, @"/(\.|\/)(jpe?g|png)$/i", 5000000, new {@class="btn"})
+    @Html.MvcUploadButton("Upload Image Button", "#dlgFileUpload", Url.Action("UploadFile"), null, @"/(\.|\/)(jpe?g|png)$/i", 5000000, new {entityId=345}, new {@class="btn"})
 </div>
 
 
@@ -25,5 +25,5 @@
 
 <div class="well">
     <legend>Upload Inline</legend>        
-    @Html.Partial("_FileUploadDialog", new FileUploadConfig() { FileTypes = @"/(\.|\/)(jpe?g|png)$/i", MaxFileSizeInBytes = 5000000, UploadUrl = Url.Action("UploadFile") })
+    @Html.Partial("_MvcFileupload", new FileUploadConfig() { FileTypes = @"/(\.|\/)(jpe?g|png)$/i", MaxFileSizeInBytes = 5000000, UploadUrl = Url.Action("UploadFile") })
 </div>

@@ -1,6 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using MvcFileUploader;
 using MvcFileUploader.Models;
@@ -17,7 +15,7 @@ namespace SampleMvcApp.Controllers
             return View();
         }
 
-        public ActionResult UploadFile(int entityId)
+        public ActionResult UploadFile(int? entityId) // optionally receive values specified with Html helper
         {
             // here we can send in some extra info to be included with the delete url 
             var statuses=new List<ViewDataUploadFileResult>();
@@ -26,7 +24,9 @@ namespace SampleMvcApp.Controllers
                 var st = FileSaver.StoreFile(x=>
                                                  {
                                                      x.File = Request.Files[i];
-                                                     x.DeleteUrl = Url.Action("DeleteFile", new {entityId = 123});
+                                                     //note how we are adding an additional value to be posted with delete request
+                                                     //and giving it the same value posted with upload
+                                                     x.DeleteUrl = Url.Action("DeleteFile", new {entityId = entityId});
                                                      x.StorageDirectory = Server.MapPath("~/Content/uploads");
                                                      x.UrlPrefix = "/Content/uploads";
                                                  });
@@ -47,7 +47,7 @@ namespace SampleMvcApp.Controllers
 
 
         //here i am receving the extra info injected
-        public ActionResult DeleteFile(int entityId, string fileUrl)
+        public ActionResult DeleteFile(int? entityId, string fileUrl)
         {
             var filePath = Server.MapPath("~" + fileUrl);
 

@@ -29,4 +29,4 @@ In upload actions we typically save the uploaded file details in some entities a
 
 This nuget package sets you up with those plumbing and keeps you DRY with Html helpers and a FileSaver utility class.
 
-The demo Mvc web app shows how to add custom code to generate thumbnail url(using ImageResizer http module) and pass custom entityId for saving your associations.
+The demo Mvc web app shows how to add custom code to generate thumbnail url(using ImageResizer http module) and pass custom entityId for saving your file details and entity associations.

@@ -4,15 +4,8 @@
     <title>@ViewBag.Title</title>    
            
     <script type="text/javascript" src="/Scripts/mvcfileupload/vendor/jquery-1.9.1.min.js"></script> 
-    <script type="text/javascript" src="/Scripts/mvcfileupload/vendor/jquery-ui-1.10.2.js"></script>
-    
-    <link href="/Content/mvcfileupload/vendor/bootstrap.min.css" rel="stylesheet" type="text/css" /> 
-    
-    <style>
-      body {
-        padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
-      }
-    </style>    
+    <script type="text/javascript" src="/Scripts/mvcfileupload/vendor/jquery-ui-1.10.2.js"></script>            
+    <link href="/Content/mvcfileupload/vendor/jquery-ui.min.css" rel="stylesheet" type="text/css" /> 
 </head>
 <body>
   <div class="navbar navbar-inverse navbar-fixed-top">
@@ -40,10 +33,7 @@
         
         @RenderBody()
 
-    </div> <!-- /container -->    
-            
-    <!-- For bootstrap modal dialog-->
-    <script type="text/javascript" src="/Scripts/mvcfileupload/vendor/bootstrap.min.js"></script>
+    </div> <!-- /container -->        
 
     @RenderSection("Scripts", false)
 </body>

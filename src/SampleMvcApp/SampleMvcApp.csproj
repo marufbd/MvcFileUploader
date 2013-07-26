@@ -45,10 +45,6 @@
       <HintPath>..\packages\ImageResizer.3.3.2\lib\ImageResizer.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="MvcFileUploader, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\MvcFileUploader.1.2.0\lib\40\MvcFileUploader.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.Entity" />
@@ -116,8 +112,8 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MvcUploaderTestController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -125,10 +121,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\images\glyphicons-halflings-white.png" />
-    <Content Include="Content\images\glyphicons-halflings.png" />
-    <Content Include="Content\images\loading.gif" />
-    <Content Include="Content\images\progressbar.gif" />
     <Content Include="Content\mvcfileupload\images\glyphicons-halflings-white.png" />
     <Content Include="Content\mvcfileupload\images\glyphicons-halflings.png" />
     <Content Include="Content\mvcfileupload\images\loading.gif" />
@@ -151,7 +143,6 @@
     <Content Include="Content\mvcfileupload\vendor\images\ui-icons_888888_256x240.png" />
     <Content Include="Content\mvcfileupload\vendor\images\ui-icons_cd0a0a_256x240.png" />
     <Content Include="Content\mvcfileupload\vendor\jquery-ui.min.css" />
-    <Content Include="Content\uploads\readme.txt" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\jquery-1.6.2-vsdoc.js" />
@@ -218,18 +209,25 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Views\Shared\_MvcFileUploaderLayout_jui.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Views\Shared\_MvcFileUploaderLayout.cshtml" />
+    <Folder Include="Content\uploads\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Shared\_MvcFileUpload.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\MvcUploaderTest\Demo.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Shared\_MvcFileUpload_tmpl.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MvcFileUploader\MvcFileUploader.csproj">
+      <Project>{10bc1034-bd5c-4fbf-8e3a-05ddf07c4269}</Project>
+      <Name>MvcFileUploader</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Shared\_MvcFileUploaderLayout.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

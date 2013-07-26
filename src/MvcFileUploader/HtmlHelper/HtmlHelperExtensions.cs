@@ -84,7 +84,12 @@ namespace MvcFileUploader.HtmlHelper
         {
             return MvcUploadButton(helper, labelText, dataTarget, uploadUrl, returnUrl, fileTypes, maxFileSize, null,
                                    htmlAttributes);
-        }        
+        }       
+ 
 
+        public static IMvcFileUpload MvcFileUpload<TModel>(this HtmlHelper<TModel> helper)
+        {
+            return new MvcFileUploadModel(helper);
+        }
     }
 }

@@ -1,7 +1,7 @@
 ﻿@using MvcFileUploader.HtmlHelper
 @using MvcFileUploader.Models
 @{
-    ViewBag.Title = "Demo";    
+    ViewBag.Title = "Demo";
 
     var showingInline = Model != null && Model == true;
     
@@ -17,13 +17,20 @@
 {
     <div class="well">
         <legend>Upload Dialog</legend> 
-        @Html.MvcUploadButton("Upload Image Button", "#dlgFileUpload", Url.Action("UploadFile"), null, @"/(\.|\/)(jpe?g|png)$/i", 5000000, new {entityId=345}, new {@class="btn"})
+        @Html.MvcUploadButton("Upload Image Button", "#dlgFileUpload", Url.Action("UploadFile"), null, @"/(\.|\/)(jpe?g|png)$/i", 5000000, new {entityId=345}, new {@class="btn"})        
     </div>
 
 
     <div class="well">
         <legend>Upload Dialog with return url on closing</legend>        
-        @Html.MvcUploadButton("Upload Image Button", "#dlgFileUpload", Url.Action("UploadFile"), Request.Url.PathAndQuery, @"/(\.|\/)(jpe?g|png)$/i", 5000000, new {@class="btn"})
+        @(
+        Html.MvcFileUpload()
+        .UploadAt(Url.Action("UploadFile"))
+        .WithFileTypes(@"/(\.|\/)(jpe?g|png)$/i")
+        .WithMaxFileSize(5000000)
+        //.AddFormField("entityId", "1234")
+        .RenderPopup("Upload Button Label", "#dlgFileUpload", new {@class="btn"})
+        )
     </div>
 
     <!-- file upload modal dialog -->
@@ -36,8 +43,28 @@
 @if(showingInline)
 {
     <div class="well">
-        <legend>Upload Inline</legend> 
-        @Html.Partial("_MvcFileupload", new FileUploadView() { FileTypes = @"/(\.|\/)(jpe?g|png)$/i", MaxFileSizeInBytes = 5000000, UploadUrl = Url.Action("UploadFile"), UI = ui})
+        <legend>Upload Inline</legend>
+        @(
+        Html.MvcFileUpload()
+        .UploadAt(Url.Action("UploadFile"))
+        .WithFileTypes(@"/(\.|\/)(jpe?g|png)$/i")
+        .WithMaxFileSize(5000000)
+        .AddFormField("entityId", "1234")
+        .RenderInline("_MvcFileupload_tmpl")
+        )
+        
+    </div>
+    
+    <div class="well">
+        <legend>Another inline uploader in same page</legend>
+        @(
+        Html.MvcFileUpload()        
+        .UploadAt(Url.Action("UploadFile"))
+        .WithFileTypes(@"/(\.|\/)(jpe?g|png)$/i")
+        .WithMaxFileSize(5000000)
+        .ExcludeSharedScript()  //this should be called as this page contains another inline widget which loaded shared scripts
+        .RenderInline("_MvcFileupload_tmpl")
+        )
     </div>       
     
     <p>

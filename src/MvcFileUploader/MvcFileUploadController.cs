@@ -20,5 +20,17 @@ namespace MvcFileUploader
             return PartialView("_MvcFileUpload", uploadConfig);
         }
 
+
+        public ActionResult UploadPopup(FileUploadView model)
+        {
+            var viewModel = new MvcFileUploadModel();
+            viewModel.UploadAt(model.UploadUrl)
+                .ReturnAt(model.ReturnUrl)
+                .WithFileTypes(model.FileTypes)
+                .WithMaxFileSize(model.MaxFileSizeInBytes);
+
+            return PartialView("_MvcFileUpload_tmpl", );
+        }
+
     }
 }

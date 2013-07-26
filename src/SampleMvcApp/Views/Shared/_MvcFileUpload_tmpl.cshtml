@@ -1,15 +1,15 @@
 ﻿@using MvcFileUploader.Models
-@model MvcFileUploader.Models.FileUploadView
+@model MvcFileUploader.Models.MvcFileUploadModel
 @{
     var formId = "fileupload" + Guid.NewGuid();
     var fileInputId = "file" + Guid.NewGuid();
 }
         
-<!-- file upload modal dialog -->
+<!-- file upload dialog/inline -->
 
     <form id="@formId" action="@Model.UploadUrl" method="POST" enctype="multipart/form-data">
         
-        <div class="modal-header">  
+        <div class="modal-header"> 
             <div class="btn-group fileupload-buttonbar">
                 <span class="btn btn-success fileinput-button">
                     <i class="icon-plus icon-white"></i>
@@ -28,14 +28,10 @@
                     <i class="icon-trash icon-white"></i>
                     <span>Delete</span>
                 </button>
-                @if(Model.IsDialog && !String.IsNullOrEmpty(Model.ReturnUrl))
+                @if (Model.ShowPopUpClose)
                 {
-                    <a href='@Model.ReturnUrl' type="button" class="pull-right close">&times;</a>
-                } 
-                else if(Model.IsDialog && String.IsNullOrEmpty(Model.ReturnUrl))
-                {
-                    <a href='#' type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</a>
-                } 
+                    <a href="@Model.ReturnUrl" type="button" class="pull-right close">&times;</a>
+                }                
             </div>
             <!-- The global progress information -->
             <div class="fileupload-progress fade">                
@@ -48,7 +44,7 @@
         </div>        
         
         <!-- Additional values to be posted -->
-        @foreach(var postItem in Model.PostValuesWithUpload)
+        @foreach (var postItem in Model.PostValuesWithUpload)
         {
             @Html.Hidden(postItem.Key, postItem.Value)
         }
@@ -63,8 +59,12 @@
 <!-- The loading indicator is shown during image processing -->
 <div class="fileupload-loading">loading..</div>
 
-<!-- The template to display files available for upload -->
-<script id="template-upload" type="text/x-tmpl">
+
+<!--template and scripts-->
+@if (Model.RenderSharedScript)
+{
+    <!-- The template to display files available for upload -->
+    <script id="template-upload" type="text/x-tmpl">
 {% for (var i=0, file; file=o.files[i]; i++) { %}
     <tr class="template-upload fade">
         <td class="preview"><span class="fade"></span></td>
@@ -94,8 +94,8 @@
     </tr>
 {% } %}
 </script>
-<!-- The template to display files available for download -->
-<script id="template-download" type="text/x-tmpl">
+    <!-- The template to display files available for download -->
+    <script id="template-download" type="text/x-tmpl">
 {% for (var i=0, file; file=o.files[i]; i++) { %}
     <tr class="template-download fade">
         {% if (file.error) { %}
@@ -123,15 +123,16 @@
     </tr>
 {% } %}
 </script>
+    <!-- Jquery File Upload-->
+    <script type="text/javascript" src="/Scripts/mvcfileupload/tmpl.min.js"></script>
+    <script type="text/javascript" src="/Scripts/mvcfileupload/mvcfileupload.js"></script>
+    <script type="text/javascript" src="/Scripts/mvcfileupload/jquery.fileupload-ui.js"></script>
+
+    <!--template and scripts end-->
+}
 
 
-<!-- Jquery File Upload-->
-<script type="text/javascript" src="/Scripts/mvcfileupload/tmpl.min.js"></script>
-<script type="text/javascript" src="/Scripts/mvcfileupload/mvcfileupload.js"></script>
-<script type="text/javascript" src="/Scripts/mvcfileupload/jquery.fileupload-ui.js"></script>
-
-
-@if(Model.UI==UploadUI.Bootstrap)
+@if (Model.UIStyle == UploadUI.Bootstrap)
 { 
     <link href="/Content/mvcfileupload/jquery.fileupload-bui.css" rel="stylesheet" type="text/css" />
 }

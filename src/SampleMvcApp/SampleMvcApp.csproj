@@ -212,13 +212,10 @@
     <Folder Include="Content\uploads\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Shared\_MvcFileUpload.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="Views\MvcUploaderTest\Demo.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Shared\_MvcFileUpload_tmpl.cshtml" />
+    <Content Include="Views\Shared\_MvcFileUpload.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MvcFileUploader\MvcFileUploader.csproj">

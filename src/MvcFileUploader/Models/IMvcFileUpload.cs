@@ -5,18 +5,18 @@ using System.Web;
 
 namespace MvcFileUploader.Models
 {
-    public interface IMvcFileUpload
+    public interface IMvcFileUploadModelBuilder
     {
         //builder methods
-        IMvcFileUpload UploadAt(string url);
-        IMvcFileUpload ReturnAt(string url);
-        IMvcFileUpload WithFileTypes(string fileTypes);
-        IMvcFileUpload WithMaxFileSize(long sizeInBytes);
+        IMvcFileUploadModelBuilder UploadAt(string url);
+        IMvcFileUploadModelBuilder ReturnAt(string url);
+        IMvcFileUploadModelBuilder WithFileTypes(string fileTypes);
+        IMvcFileUploadModelBuilder WithMaxFileSize(long sizeInBytes);
 
-        IMvcFileUpload AddFormField(string fieldName, string fieldValue);
+        IMvcFileUploadModelBuilder AddFormField(string fieldName, string fieldValue);
 
         //render
-        IMvcFileUpload ExcludeSharedScript();
+        IMvcFileUploadModelBuilder ExcludeSharedScript();
         IHtmlString RenderInline();
         IHtmlString RenderInline(string template);
         IHtmlString RenderPopup(string labelTxt, string dataTarget, object htmlAttributes = null);

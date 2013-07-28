@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Web;
 using System.Web.Mvc;
 using MvcFileUploader;
@@ -20,6 +21,7 @@ namespace SampleMvcApp.Controllers
 
         public ActionResult UploadFile(int? entityId) // optionally receive values specified with Html helper
         {
+            Thread.Sleep(5000);
             // here we can send in some extra info to be included with the delete url 
             var statuses = new List<ViewDataUploadFileResult>();
             for (var i = 0; i < Request.Files.Count; i++)

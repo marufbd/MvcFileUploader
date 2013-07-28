@@ -15,22 +15,11 @@ namespace MvcFileUploader
             get { return Server.MapPath("~/Uploads/"); }
         }
 
-        public ActionResult UploadDialog(FileUploadView uploadConfig)
-        { 
-            return PartialView("_MvcFileUpload", uploadConfig);
-        }
-
-
-        public ActionResult UploadPopup(FileUploadView model)
+        public ActionResult UploadDialog(FileUploadViewModel model, Dictionary<string, string> postValues)
         {
-            var viewModel = new MvcFileUploadModel();
-            viewModel.UploadAt(model.UploadUrl)
-                .ReturnAt(model.ReturnUrl)
-                .WithFileTypes(model.FileTypes)
-                .WithMaxFileSize(model.MaxFileSizeInBytes);
+            model.PostValuesWithUpload = postValues;
 
-            return PartialView("_MvcFileUpload_tmpl", );
+            return PartialView("_MvcFileUpload", model);
         }
-
     }
 }

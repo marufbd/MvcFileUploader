@@ -32,7 +32,7 @@
         <legend>Upload Dialog with return url on closing</legend>
         @(
         Html.MvcFileUpload()
-        .UploadAt(Url.Action("UploadFile"))
+        .UploadAt(Url.Action("UploadFile"))        
         .ReturnAt("/MvcUploaderTest/Demo?inline=True")
         .WithFileTypes(@"/(\.|\/)(jpe?g|png)$/i")
         .WithMaxFileSize(5000000) 
@@ -54,6 +54,7 @@
         @(
         Html.MvcFileUpload()
         .UploadAt(Url.Action("UploadFile"))
+        .UIStyle(ui)
         .WithFileTypes(@"/(\.|\/)(jpe?g|png)$/i")
         .WithMaxFileSize(5000000)
         .AddFormField("entityId", "1234")
@@ -66,7 +67,7 @@
         <legend>Another inline uploader in same page</legend>
         @(
         Html.MvcFileUpload()        
-        .UploadAt(Url.Action("UploadFile"))
+        .UploadAt(Url.Action("UploadFile"))        
         .WithFileTypes(@"/(\.|\/)(jpe?g|png)$/i")
         .WithMaxFileSize(5000000)
         .ExcludeSharedScript()  //this should be called as this page contains another inline widget which loaded shared scripts
@@ -81,4 +82,3 @@
 
 
 @Html.ActionLink(showingInline?"Show modal dialog demo":"Show inline demo", "Demo", new {inline=!showingInline}, new {@class="btn btn-info"})
-

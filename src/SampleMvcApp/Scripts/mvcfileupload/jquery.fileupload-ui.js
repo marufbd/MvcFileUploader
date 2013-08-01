@@ -82,7 +82,7 @@
             // The add callback is invoked as soon as files are added to the fileupload
             // widget (via file input selection, drag & drop or add API call).
             // See the basic file upload widget for more information:
-            add: function (e, data) {
+            add: function (e, data) {                
                 var that = $(this).data('blueimp-fileupload') ||
                         $(this).data('fileupload'),
                     options = that.options,
@@ -110,6 +110,8 @@
             },
             // Callback for the start of each file upload request:
             send: function (e, data) {
+                
+                
                 var that = $(this).data('blueimp-fileupload') ||
                         $(this).data('fileupload');
                 if (!data.isValidated) {
@@ -135,11 +137,11 @@
                             'width',
                             '100%'
                         );
-                }
+                }                
                 return that._trigger('sent', e, data);
             },
             // Callback for successful uploads:
-            done: function (e, data) {
+            done: function (e, data) {                
                 var that = $(this).data('blueimp-fileupload') ||
                         $(this).data('fileupload'),
                     files = that._getFilesFromResponse(data),
@@ -197,7 +199,7 @@
                 }
             },
             // Callback for failed (abort or error) uploads:
-            fail: function (e, data) {
+            fail: function (e, data) {                
                 var that = $(this).data('blueimp-fileupload') ||
                         $(this).data('fileupload'),
                     template,
@@ -436,11 +438,11 @@
         },
 
         _renderExtendedProgress: function (data) {
-            return this._formatBitrate(data.bitrate) + ' | ' +
+            var bitRate = data.bitrate ? this._formatBitrate(data.bitrate) + ' | ' +
                 this._formatTime(
                     (data.total - data.loaded) * 8 / data.bitrate
-                ) + ' | ' +
-                this._formatPercentage(
+                ) + ' | '  : '';
+            return bitRate+ this._formatPercentage(
                     data.loaded / data.total
                 ) + ' | ' +
                 this._formatFileSize(data.loaded) + ' / ' +
@@ -575,14 +577,15 @@
             ).find('a[download]').each(this._enableDragToDesktop).end();
         },
 
-        _startHandler: function (e) {
-            e.preventDefault();
+        _startHandler: function (e) {            
+            e.preventDefault();            
             var button = $(e.currentTarget),
                 template = button.closest('.template-upload'),
                 data = template.data('data');
+
             if (data && data.submit && !data.jqXHR && data.submit()) {
                 button.prop('disabled', true);
-            }
+            }                       
         },
 
         _cancelHandler: function (e) {
@@ -679,8 +682,8 @@
             );
         },
 
-        _initEventHandlers: function () {
-            this._super();
+        _initEventHandlers: function () {            
+            this._super();            
             this._on(this.options.filesContainer, {
                 'click .start': this._startHandler,
                 'click .cancel': this._cancelHandler,

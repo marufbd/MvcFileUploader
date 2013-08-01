@@ -14,6 +14,8 @@ namespace MvcFileUploader.Models
         IMvcFileUploadModelBuilder WithMaxFileSize(long sizeInBytes);
 
         IMvcFileUploadModelBuilder AddFormField(string fieldName, string fieldValue);
+        IMvcFileUploadModelBuilder Template(string template);
+        IMvcFileUploadModelBuilder UIStyle(UploadUI ui);
 
         //render
         IMvcFileUploadModelBuilder ExcludeSharedScript();

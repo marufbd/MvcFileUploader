@@ -47,7 +47,7 @@ namespace MvcFileUploader.Models
         
         public MvcFileUploadModelBuilder(HtmlHelper helper)
         {
-            _helper = helper;            
+            _helper = helper; 
         }
 
 
@@ -86,6 +86,18 @@ namespace MvcFileUploader.Models
         }
 
 
+        public IMvcFileUploadModelBuilder Template(string template)
+        {
+            _template = template;
+            return this;
+        }
+
+        public IMvcFileUploadModelBuilder UIStyle(UploadUI ui)
+        {
+            _uiStyle = ui;
+            return this;
+        }
+
         /// <summary>
         /// Excludes the shared script. 
         /// Should be called when rendering two inline upload widget
@@ -98,6 +110,11 @@ namespace MvcFileUploader.Models
             return this;
         }
 
+
+
+
+
+        //rendering
         public IHtmlString RenderInline()
         {
             _renderType = "inline";
@@ -121,17 +138,15 @@ namespace MvcFileUploader.Models
             var urlHelper = new UrlHelper(_helper.ViewContext.RequestContext);
                         
             var linkUrl = urlHelper.Action("UploadDialog", "MvcFileUpload", GetViewModel());
-            int i = 0;
+            
             foreach (var postVal in _postValuesWithUpload)
             {
-                linkUrl += String.Format("&postValues[{0}].Key={1}", i, HttpUtility.UrlEncode(postVal.Key));
-                linkUrl += String.Format("&postValues[{0}].Value={1}", i, HttpUtility.UrlEncode(postVal.Value));
-                i++;
+                linkUrl += String.Format("&postValues.Key={0}", HttpUtility.UrlEncode(postVal.Key));
+                linkUrl += String.Format("&postValues.Value={0}", HttpUtility.UrlEncode(postVal.Value)); 
             } 
 
 
             tag.Attributes.Add("href", linkUrl);
-
             tag.Attributes.Add("role", "button");
             tag.Attributes.Add("data-toggle", "modal");
             tag.Attributes.Add("data-target", dataTarget);

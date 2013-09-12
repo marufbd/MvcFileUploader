@@ -23,6 +23,7 @@
         .WithFileTypes(@"/(\.|\/)(jpe?g|png)$/i")
         .WithMaxFileSize(5000000)
         .AddFormField("entityId", "1234")
+        //.AddFormField("groupId", "grp123")
         .RenderPopup("Upload", "#dlgFileUpload", new {@class="btn"})
         )
     </div>

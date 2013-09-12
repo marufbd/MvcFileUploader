@@ -44,6 +44,20 @@ namespace MvcFileUploader.Models
                            ShowPopUpClose = "link".Equals(_renderType) && _returnUrl != null
                        };
         }
+
+        private dynamic GetUrlPostModel()
+        {
+            return new 
+            {
+                FileTypes = _fileTypes,
+                MaxFileSizeInBytes = _maxFileSizeInBytes,
+                UploadUrl = _uploadUrl,
+                UIStyle = _uiStyle,
+                ReturnUrl = _returnUrl ?? "#",
+                RenderSharedScript = _includeScriptAndTemplate,                
+                ShowPopUpClose = "link".Equals(_renderType) && _returnUrl != null
+            };
+        }
         
         public MvcFileUploadModelBuilder(HtmlHelper helper)
         {
@@ -137,13 +151,23 @@ namespace MvcFileUploader.Models
             var tag = new TagBuilder("a");
             var urlHelper = new UrlHelper(_helper.ViewContext.RequestContext);
                         
-            var linkUrl = urlHelper.Action("UploadDialog", "MvcFileUpload", GetViewModel());
+            var linkUrl = urlHelper.Action("UploadDialog", "MvcFileUpload", GetUrlPostModel());
             
-            foreach (var postVal in _postValuesWithUpload)
+            //binding the dictionary with post
+            if(_postValuesWithUpload.Count>0)
             {
-                linkUrl += String.Format("&postValues.Key={0}", HttpUtility.UrlEncode(postVal.Key));
-                linkUrl += String.Format("&postValues.Value={0}", HttpUtility.UrlEncode(postVal.Value)); 
-            } 
+                int idx = 0;
+                foreach (var postVal in _postValuesWithUpload)
+                {
+                    linkUrl += String.Format("&postValues{1}.Key={0}", HttpUtility.UrlEncode(postVal.Key), HttpUtility.UrlEncode("[" + idx + "]"));
+                    linkUrl += String.Format("&postValues{1}.Value={0}", HttpUtility.UrlEncode(postVal.Value), HttpUtility.UrlEncode("[" + idx + "]"));
+                    idx++;
+                } 
+            }
+            else
+            {
+                linkUrl += String.Format("&postValues[0].Key=NoKeys&postValues[0].Value=");
+            }
 
 
             tag.Attributes.Add("href", linkUrl);

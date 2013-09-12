@@ -15,8 +15,11 @@ namespace MvcFileUploader
             get { return Server.MapPath("~/Uploads/"); }
         }
 
-        public ActionResult UploadDialog(FileUploadViewModel model, Dictionary<string, string> postValues)
+        public ActionResult UploadDialog(FileUploadViewModel model, IDictionary<string, string> postValues)
         {
+            if (postValues!=null && postValues.ContainsKey("NoKeys"))
+                postValues.Clear();
+
             model.PostValuesWithUpload = postValues;
 
             return PartialView("_MvcFileUpload", model);

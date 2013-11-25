@@ -13,9 +13,9 @@ namespace MvcFileUploader.Models
         public int size { get; set; }
         public string type { get; set; }
         public string url { get; set; }
-        public string delete_url { get; set; }
-        public string thumbnail_url { get; set; }
-        public string delete_type { get; set; }
+        public string deleteUrl { get; set; }
+        public string thumbnailUrl { get; set; }
+        public string deleteType { get; set; }
 
         //for use from any controller and/or views
         public string FullPath { get; set; }

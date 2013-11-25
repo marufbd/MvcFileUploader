@@ -21,6 +21,7 @@ namespace MvcFileUploader
                 postValues.Clear();
 
             model.PostValuesWithUpload = postValues;
+            model.IsDialog = true;
 
             return PartialView("_MvcFileUpload", model);
         }

@@ -7,62 +7,121 @@
         
 <!-- file upload dialog/inline form-->
 
-<form id="@formId" action="@Model.UploadUrl" method="POST" enctype="multipart/form-data">
-        
-    <div class="modal-header"> 
-        <div class="btn-group fileupload-buttonbar">
-            <span class="btn btn-success fileinput-button">
-                <i class="icon-plus icon-white"></i>
-                <span>Add files...</span>
-                <input type="file" name="@fileInputId" multiple>
-            </span>
-            <button type="submit" class="btn btn-primary start">
-                <i class="icon-upload icon-white"></i>
-                <span>Start upload</span>
-            </button>
-            <button type="reset" class="btn btn-warning cancel">
-                <i class="icon-ban-circle icon-white"></i>
-                <span>Cancel upload</span>
-            </button>
-            <button type="button" class="btn btn-danger delete">
-                <i class="icon-trash icon-white"></i>
-                <span>Delete</span>
-            </button>
-            @if (Model.ShowPopUpClose)
-            {                    
-                if(Model.ReturnOnClose)
+@if (Model.IsDialog)
+{
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                
+                @if(Model.ReturnOnClose)
                 {
-                    <a href="@Model.ReturnUrl" type="button" aria-hidden="true" data-dismiss="modal" class="pull-right close">&times;</a> 
+                    <a href="@Model.ReturnUrl" type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</a> 
                 }
                 else
                 {
-                    <a href="@Model.ReturnUrl" type="button" aria-hidden="true" class="pull-right close">&times;</a> 
+                    <a href="@Model.ReturnUrl" type="button" class="close" aria-hidden="true">&times;</a> 
                 }
-            }                
-        </div>
-        <!-- The global progress information -->
-        <div class="fileupload-progress fade"> 
-            <!-- The extended global progress information -->
-            <div class="progress-extended">&nbsp;</div>
+                
+                <form role="form" class="form-inline" id="@formId" action="@Model.UploadUrl" method="POST" enctype="multipart/form-data">
+                    <div class="fileupload-buttonbar">
+                        <div class="btn-group">
+                            <!-- The fileinput-button span is used to style the file input field as button -->
+                            <span class="btn btn-success fileinput-button">
+                                <i class="glyphicon glyphicon-plus"></i>
+                                <span>Add files...</span>
+                                <input type="file" name="files[]" multiple>
+                            </span>
+                            <button type="submit" class="btn btn-primary start">
+                                <i class="glyphicon glyphicon-upload"></i>
+                                <span>Start upload</span>
+                            </button>
+                            <button type="reset" class="btn btn-warning cancel">
+                                <i class="glyphicon glyphicon-ban-circle"></i>
+                                <span>Cancel upload</span>
+                            </button>
+                            <button type="button" class="btn btn-danger delete">
+                                <i class="glyphicon glyphicon-trash"></i>
+                                <span>Delete</span>
+                            </button>                    
+                            <input type="checkbox" class="toggle">
+                        </div>
+
+                        <!-- The global file processing state -->
+                        <span class="fileupload-process"></span>
+                        <!-- The global progress state -->
+                        <div class="fileupload-progress fade">
+                            <!-- The global progress bar -->
+                            <div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+                                <div class="progress-bar progress-bar-success" style="width:0%;"></div>
+                            </div>
+                            <!-- The extended global progress state -->
+                            <div class="progress-extended">&nbsp;</div>
+                        </div>
+                    </div>
+                    <!-- The table listing the files available for upload/download -->
+                    <table role="presentation" class="table table-striped"><tbody class="files"></tbody></table>
+        
+                    <!-- Additional values to be posted with form-->
+                    @foreach (var postItem in Model.PostValuesWithUpload)
+                    {
+                        @Html.Hidden(postItem.Key, postItem.Value)
+                    }
+                </form>                
+        
+            </div>
         </div>
     </div>
-    <div class="modal-body">
-        <table class="table table-striped"><tbody class="files" data-toggle="modal-gallery" data-target="#modal-gallery"></tbody></table>
-    </div>        
+}
+
+else
+{
+    <form id="@formId" action="@Model.UploadUrl" method="POST" enctype="multipart/form-data">        
+        <div class="row fileupload-buttonbar">                    
+            <div class="col-lg-7">
+                <!-- The fileinput-button span is used to style the file input field as button -->
+                <span class="btn btn-success fileinput-button">
+                    <i class="glyphicon glyphicon-plus"></i>
+                    <span>Add files...</span>
+                    <input type="file" name="files[]" multiple>
+                </span>
+                <button type="submit" class="btn btn-primary start">
+                    <i class="glyphicon glyphicon-upload"></i>
+                    <span>Start upload</span>
+                </button>
+                <button type="reset" class="btn btn-warning cancel">
+                    <i class="glyphicon glyphicon-ban-circle"></i>
+                    <span>Cancel upload</span>
+                </button>
+                <button type="button" class="btn btn-danger delete">
+                    <i class="glyphicon glyphicon-trash"></i>
+                    <span>Delete</span>
+                </button>                    
+                <input type="checkbox" class="toggle">                
+            </div>
+
+            <!-- The global file processing state -->
+            <span class="fileupload-process"></span>
+            <!-- The global progress state -->
+            <div class="col-lg-5 fileupload-progress fade">
+                <!-- The global progress bar -->
+                <div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+                    <div class="progress-bar progress-bar-success" style="width: 0%;"></div>
+                </div>
+                <!-- The extended global progress state -->
+                <div class="progress-extended">&nbsp;</div>
+            </div>
+        </div>
+        <!-- The table listing the files available for upload/download -->
+        <table role="presentation" class="table table-striped"><tbody class="files"></tbody></table>
         
-    <!-- Additional values to be posted with form-->
-    @foreach (var postItem in Model.PostValuesWithUpload)
-    {
-        @Html.Hidden(postItem.Key, postItem.Value)
-    }
-</form> 
-    
-<!-- The global progress bar -->
-<div class="progress progress-success progress-striped active fade">
-    <div class="bar" style="width:0%;"></div>
-</div>
-<!-- The loading indicator is shown during image processing -->
-<div class="fileupload-loading">loading..</div>
+        <!-- Additional values to be posted with form-->
+        @foreach (var postItem in Model.PostValuesWithUpload)
+        {
+            @Html.Hidden(postItem.Key, postItem.Value)
+        }
+    </form>
+}
+
 
 
 <!--template and scripts-->
@@ -72,93 +131,115 @@
     <script id="template-upload" type="text/x-tmpl">
     {% for (var i=0, file; file=o.files[i]; i++) { %}
         <tr class="template-upload fade">
-            <td class="preview"><span class="fade"></span></td>
-            <td class="name"><span>{%=file.name%}</span></td>
-            <td class="size"><span>{%=o.formatFileSize(file.size)%}</span></td>
-            {% if (file.error) { %}
-                <td class="error" colspan="2"><span class="label label-important">{%=locale.fileupload.error%}</span> {%=locale.fileupload.errors[file.error] || file.error%}</td>
-            {% } else if (o.files.valid && !i) { %}
-                <td>
-                    <div class="progress progress-success progress-striped active"><div class="bar" style="width:0%;"></div></div>
-                </td>
-                <td class="start">{% if (!o.options.autoUpload) { %}
-                    <button class="btn btn-primary">
-                        <i class="icon-upload icon-white"></i>
-                        <span>{%=locale.fileupload.start%}</span>
+            <td>
+                <span class="preview"></span>
+            </td>
+            <td>
+                <p class="name">{%=file.name%}</p>
+                <strong class="error text-danger"></strong>
+            </td>
+            <td>
+                <p class="size">Processing...</p>
+                <div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="progress-bar progress-bar-success" style="width:0%;"></div></div>
+            </td>
+            <td>
+                {% if (!i && !o.options.autoUpload) { %}
+                    <button class="btn btn-primary start" disabled>
+                        <i class="glyphicon glyphicon-upload"></i>
+                        <span>Start</span>
                     </button>
-                {% } %}</td>
-            {% } else { %}
-                <td colspan="2"></td>
-            {% } %}
-            <td class="cancel">{% if (!i) { %}
-                <button class="btn btn-warning">
-                    <i class="icon-ban-circle icon-white"></i>
-                    <span>{%=locale.fileupload.cancel%}</span>
-                </button>
-            {% } %}</td>
+                {% } %}
+                {% if (!i) { %}
+                    <button class="btn btn-warning cancel">
+                        <i class="glyphicon glyphicon-ban-circle"></i>
+                        <span>Cancel</span>
+                    </button>
+                {% } %}
+            </td>
         </tr>
     {% } %}
-</script>
+    </script>
     <!-- The template to display files available for download -->
     <script id="template-download" type="text/x-tmpl">
     {% for (var i=0, file; file=o.files[i]; i++) { %}
         <tr class="template-download fade">
-            {% if (file.error) { %}
-                <td></td>
-                <td class="name"><span>{%=file.name%}</span></td>
-                <td class="size"><span>{%=o.formatFileSize(file.size)%}</span></td>
-                <td class="error" colspan="2"><span class="label label-important">{%=locale.fileupload.error%}</span> {%=locale.fileupload.errors[file.error] || file.error%}</td>
-            {% } else { %}
-                <td class="preview">{% if (file.thumbnail_url) { %}
-                    <a href="{%=file.url%}" title="{%=file.name%}" rel="gallery" download="{%=file.name%}"><img src="{%=file.thumbnail_url%}"></a>
-                {% } %}</td>
-                <td class="name">
-                    <a href="{%=file.url%}" title="{%=file.name%}" rel="{%=file.thumbnail_url&&'gallery'%}" download="{%=file.name%}">{%=file.name%}</a>
-                </td>
-                <td class="size"><span>{%=o.formatFileSize(file.size)%}</span></td>
-                <td colspan="2"></td>
-            {% } %}
             <td>
-                <button class="btn btn-danger delete" data-type="{%=file.delete_type%}" data-url="{%=file.delete_url%}"{% if (file.delete_with_credentials) { %} data-xhr-fields='{"withCredentials":true}'{% } %}>
-                    <i class="icon-trash icon-white"></i>
-                    <span>Delete</span>
-                </button>
-                <input type="checkbox" name="delete" value="1" class="toggle">
+                <span class="preview">
+                    {% if (file.thumbnailUrl) { %}
+                        <a href="{%=file.url%}" title="{%=file.name%}" download="{%=file.name%}" data-gallery><img src="{%=file.thumbnailUrl%}"></a>
+                    {% } %}
+                </span>
+            </td>
+            <td>
+                <p class="name">
+                    {% if (file.url) { %}
+                        <a href="{%=file.url%}" title="{%=file.name%}" download="{%=file.name%}" {%=file.thumbnailUrl?'data-gallery':''%}>{%=file.name%}</a>
+                    {% } else { %}
+                        <span>{%=file.name%}</span>
+                    {% } %}
+                </p>
+                {% if (file.error) { %}
+                    <div><span class="label label-danger">Error</span> {%=file.error%}</div>
+                {% } %}
+            </td>
+            <td>
+                <span class="size">{%=o.formatFileSize(file.size)%}</span>
+            </td>
+            <td>
+                {% if (file.deleteUrl) { %}
+                    <button class="btn btn-danger delete" data-type="{%=file.deleteType%}" data-url="{%=file.deleteUrl%}"{% if (file.deleteWithCredentials) { %} data-xhr-fields='{"withCredentials":true}'{% } %}>
+                        <i class="glyphicon glyphicon-trash"></i>
+                        <span>Delete</span>
+                    </button>
+                    <input type="checkbox" name="delete" value="1" class="toggle">
+                {% } else { %}
+                    <button class="btn btn-warning cancel">
+                        <i class="glyphicon glyphicon-ban-circle"></i>
+                        <span>Cancel</span>
+                    </button>
+                {% } %}
             </td>
         </tr>
     {% } %}
-</script>
-    <!-- Jquery File Upload-->
-    <script type="text/javascript" src="/Scripts/mvcfileupload/tmpl.min.js"></script>
-    <script type="text/javascript" src="/Scripts/mvcfileupload/mvcfileupload.js"></script>
-    <script type="text/javascript" src="/Scripts/mvcfileupload/jquery.fileupload-ui.js"></script>
-
-    if (Model.UIStyle == UploadUI.Bootstrap)
-    { 
-    <link href="/Content/mvcfileupload/jquery.fileupload-bui.css" rel="stylesheet" type="text/css" />
-    }
-    else if (Model.UIStyle == UploadUI.JQueryUI)
-    {
-    <link href="/Content/mvcfileupload/jquery.fileupload-jui.css" rel="stylesheet" type="text/css" />
-    <script type="text/javascript" src="/Scripts/mvcfileupload/jquery.fileupload-jui.js"></script>
-    }
+    </script>
+        
+    <!-- Blueimp Jquery File Upload-->
     
-    <!--template and scripts end-->
+    <script type="text/javascript" src="/Scripts/mvcfileupload/blueimp/jquery.ui.widget.js"></script>
+    <script type="text/javascript" src="/Scripts/mvcfileupload/blueimp/tmpl.min.js"></script>
+    <!-- The Load Image plugin is included for the preview images and image resizing functionality -->
+    <script src="/Scripts/mvcfileupload/blueimp/load-image.min.js"></script>
+    <!-- The Canvas to Blob plugin is included for image resizing functionality -->
+    <script src="/Scripts/mvcfileupload/blueimp/canvas-to-blob.min.js"></script>
+    
+    <script type="text/javascript" src="/Scripts/mvcfileupload/blueimp/jquery.iframe-transport.js"></script>
+    <script type="text/javascript" src="/Scripts/mvcfileupload/blueimp/jquery.fileupload.js"></script>
+    <script type="text/javascript" src="/Scripts/mvcfileupload/blueimp/jquery.fileupload-process.js"></script>
+    <script type="text/javascript" src="/Scripts/mvcfileupload/blueimp/jquery.fileupload-image.js"></script>
+    <script type="text/javascript" src="/Scripts/mvcfileupload/blueimp/jquery.fileupload-ui.js"></script>
+    <script type="text/javascript" src="/Scripts/mvcfileupload/blueimp/jquery.fileupload-validate.js"></script>
+    
+    <!-- Blueimp styles / see blueimp docs for styling requirements for jquery ui -->
+    <link rel="stylesheet" href="/Content/mvcfileupload/blueimp/jquery.fileupload.css">
+    <link rel="stylesheet" href="/Content/mvcfileupload/blueimp/jquery.fileupload-ui.css">
+    
+    if (Model.UIStyle == UploadUI.JQueryUI)
+    {
+       <script type="text/javascript" src="/Scripts/mvcfileupload/blueimp/jquery.fileupload-jquery-ui.js"></script>
+    }
 }
-
+<!--template and scripts end-->
 
 <script type="text/javascript">
-
-    
+            
     // Initialize the jQuery File Upload widget:
-    $('#@(formId)').fileupload();
+    $('#@(formId)').fileupload({url: '@Model.UploadUrl'});
 
     $('#@(formId)').fileupload('option', { 
         maxFileSize: @Model.MaxFileSizeInBytes,
         resizeMaxWidth: 1920,
         resizeMaxHeight: 1200,
         acceptFileTypes: @Model.FileTypes
-    });
-    
+    });    
 
 </script>

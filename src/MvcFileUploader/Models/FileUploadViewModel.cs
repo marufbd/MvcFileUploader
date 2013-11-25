@@ -13,9 +13,8 @@ namespace MvcFileUploader.Models
         public long MaxFileSizeInBytes { get; set; }
         public string UploadUrl { get; set; }
 
-        public bool ShowPopUpClose { get; set; }
-        public bool RenderSharedScript { get; set; }
-     
+        public bool IsDialog { get; set; }
+        public bool RenderSharedScript { get; set; }     
 
         public UploadUI UIStyle { get; set; }
 

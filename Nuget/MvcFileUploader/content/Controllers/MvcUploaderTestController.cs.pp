@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Web.Mvc;
 using MvcFileUploader;
@@ -43,13 +44,17 @@ namespace $rootnamespace$.Controllers
             //todo: add additional code to generate thumbnail for videos, associate files with entities etc
 
             //adding thumbnail url for jquery file upload javascript plugin
-            statuses.ForEach(x => x.thumbnail_url = x.url + "?width=80&height=80"); // uses ImageResizer httpmodule to resize images from this url
+            statuses.ForEach(x => x.thumbnailUrl = x.url + "?width=80&height=80"); // uses ImageResizer httpmodule to resize images from this url
 
             //setting custom download url instead of direct url to file which is default
             statuses.ForEach(x => x.url = Url.Action("DownloadFile", new { fileUrl = x.url, mimetype = x.type }));
 
+            var viewresult = Json(new {files = statuses});
+            //for IE8 which does not accept application/json
+            if (Request.Headers["Accept"] != null && !Request.Headers["Accept"].Contains("application/json"))
+                viewresult.ContentType = "text/plain";            
 
-            return Json(new { files = statuses });
+            return viewresult;
         }
 
 
@@ -63,7 +68,12 @@ namespace $rootnamespace$.Controllers
             if (System.IO.File.Exists(filePath))
                 System.IO.File.Delete(filePath);
 
-            return new HttpStatusCodeResult(200); // trigger success
+            var viewresult = Json(new { error = String.Empty });
+            //for IE8 which does not accept application/json
+            if (Request.Headers["Accept"] != null && !Request.Headers["Accept"].Contains("application/json"))
+                viewresult.ContentType = "text/plain"; 
+
+            return viewresult; // trigger success
         }
 
 
@@ -75,7 +85,7 @@ namespace $rootnamespace$.Controllers
                 return File(filePath, mimetype);
             else
             {
-                return new HttpNotFoundResult("Fiel not found");
+                return new HttpNotFoundResult("File not found");
             }
         }
     }

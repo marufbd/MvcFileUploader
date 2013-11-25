@@ -3,16 +3,18 @@
 <head>
     <title>@ViewBag.Title</title>    
            
-    <script type="text/javascript" src="/Scripts/mvcfileupload/vendor/jquery-1.9.1.min.js"></script> 
-    <script type="text/javascript" src="/Scripts/mvcfileupload/vendor/jquery-ui-1.10.2.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>        
     
-    <link href="/Content/mvcfileupload/vendor/bootstrap.min.css" rel="stylesheet" type="text/css" /> 
+    <!-- Bootstrap styles -->
+    <link rel="stylesheet" href="/Content/mvcfileupload/vendor/bootstrap.min.css">
+
     
     <style>
       body {
         padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
       }
-    </style>    
+    </style>
 </head>
 <body>
   <div class="navbar navbar-inverse navbar-fixed-top">
@@ -23,7 +25,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </a>
-          <a class="brand" href="#">Project name</a>
+          <a class="navbar-brand" href="#">Project name</a>
           <div class="nav-collapse collapse">
             <ul class="nav">
               <li class="active"><a href="#">Home</a></li>

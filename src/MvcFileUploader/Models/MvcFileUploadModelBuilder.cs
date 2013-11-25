@@ -40,8 +40,7 @@ namespace MvcFileUploader.Models
                            UIStyle = _uiStyle,
                            ReturnUrl = _returnUrl??"#",
                            RenderSharedScript = _includeScriptAndTemplate,
-                           PostValuesWithUpload = _postValuesWithUpload,
-                           ShowPopUpClose = "link".Equals(_renderType) && _returnUrl != null
+                           PostValuesWithUpload = _postValuesWithUpload                           
                        };
         }
 

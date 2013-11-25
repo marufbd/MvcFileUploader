@@ -47,7 +47,7 @@
     <Compile Include="HtmlHelper\HtmlHelperExtensions.cs" />
     <Compile Include="Models\Enums.cs" />
     <Compile Include="Models\FileUploadViewModel.cs" />
-    <Compile Include="Models\IMvcFileUpload.cs" />
+    <Compile Include="Models\IMvcFileUploadModelBuilder.cs" />
     <Compile Include="Models\MvcFileSave.cs" />
     <Compile Include="Models\MvcFileUploadModelBuilder.cs" />
     <Compile Include="Models\ViewDataUploadFileResult.cs" />

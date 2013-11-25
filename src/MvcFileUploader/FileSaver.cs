@@ -28,24 +28,25 @@ namespace MvcFileUploader
             
             var dirInfo = new DirectoryInfo(mvcFile.StorageDirectory);
             var file = mvcFile.File;
-            var fileExtension = Path.GetExtension(mvcFile.File.FileName);
-            var fileName = Path.GetFileNameWithoutExtension(mvcFile.File.FileName);
+            var fileNameWithoutPath = Path.GetFileName(mvcFile.File.FileName);
+            var fileExtension = Path.GetExtension(fileNameWithoutPath);
+            var fileName = Path.GetFileNameWithoutExtension(Path.GetFileName(mvcFile.File.FileName));
             var genName = fileName + "-" + mvcFile.FileTimeStamp.ToFileTime();
             var genFileName = String.IsNullOrEmpty(mvcFile.FileName) ? genName + fileExtension : mvcFile.FileName;// get filename if set
-            var fullPath = Path.Combine(mvcFile.StorageDirectory, genFileName);
+            var fullPath = Path.Combine(mvcFile.StorageDirectory, genFileName);            
 
             try
             {                
                 var viewDataUploadFileResult = new ViewDataUploadFileResult()
                 {
-                    name = file.FileName,
+                    name = fileNameWithoutPath,
                     SavedFileName = genFileName,
                     size = file.ContentLength,
                     type = file.ContentType,
                     url = mvcFile.UrlPrefix + "/" + genFileName,
                     //delete_url = Url.Action("DeleteFile", new { fileUrl = "/"+storageRoot+"/" + genFileName }),
                     //thumbnail_url = thumbUrl + "?width=100",
-                    delete_type = "POST",
+                    deleteType = "POST",
                     Title = fileName,
 
                     //for controller use
@@ -54,7 +55,7 @@ namespace MvcFileUploader
 
                 //add delete url                           
                 mvcFile.AddFileUriParamToDeleteUrl("fileUrl", viewDataUploadFileResult.url);
-                viewDataUploadFileResult.delete_url = mvcFile.DeleteUrl;
+                viewDataUploadFileResult.deleteUrl = mvcFile.DeleteUrl;
                 
 
                 status = viewDataUploadFileResult;   
@@ -71,7 +72,7 @@ namespace MvcFileUploader
                                  error = exc.Message,
                                  name = file.FileName,
                                  size = file.ContentLength,
-                                 type = file.ContentType                                 
+                                 type = file.ContentType 
                              };
             }
 

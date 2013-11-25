@@ -9,7 +9,7 @@
     var ui = "jquery".Equals(Request.Params["ui"]) ? UploadUI.JQueryUI : UploadUI.Bootstrap;
     var toggleUi = ui == UploadUI.Bootstrap ? "jquery" : "bootstrap";
     
-    //setting layout based on ui    
+    //setting layout based on ui
     Layout = "~/Views/Shared/" + (ui == UploadUI.Bootstrap ? "_MvcFileUploaderLayout.cshtml" : "_MvcFileUploaderLayout_jui.cshtml");
 }
 
@@ -24,7 +24,7 @@
         .WithMaxFileSize(5000000)
         .AddFormField("entityId", "1234")
         //.AddFormField("groupId", "grp123")
-        .RenderPopup("Upload", "#dlgFileUpload", new {@class="btn"})
+        .RenderPopup("Upload", "#dlgFileUpload", new {@class="btn btn-large btn-primary"})
         )
     </div>
 
@@ -37,14 +37,16 @@
         .ReturnAt("/MvcUploaderTest/Demo?inline=True")
         .WithFileTypes(@"/(\.|\/)(jpe?g|png)$/i")
         .WithMaxFileSize(5000000) 
-        .RenderPopup("Upload Button Label", "#dlgFileUpload", new {@class="btn"})
+        .RenderPopup("Upload Button Label", "#dlgFileUpload", new {@class="btn btn-large btn-primary"})
         )
     </div>
-
+    
     <!-- file upload modal dialog -->
-    <div class="modal hide" id="dlgFileUpload" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-body"></div>
-    </div> 
+    <div class="modal fade" id="dlgFileUpload" tabindex="-1" role="dialog" aria-hidden="true">
+  
+    </div><!-- /.modal -->           
+    
+     
 }
 
 
@@ -77,7 +79,7 @@
     </div>       
     
     <p>
-    @Html.ActionLink("Show "+toggleUi+" ui", "Demo", new {inline=true, ui=toggleUi}, new {@class="btn btn-info"})
+        @Html.ActionLink("Show "+toggleUi+" ui", "Demo", new {inline=true, ui=toggleUi}, new {@class="btn btn-info"})
     </p>
 }
 

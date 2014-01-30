@@ -112,7 +112,7 @@ else //inline
                     <i class="glyphicon glyphicon-trash"></i>
                     <span>Delete</span>
                 </button>                    
-                <input type="checkbox" class="toggle">                
+                <input type="checkbox" class="toggle"> 
             </div>
 
             <!-- The global file processing state -->
@@ -143,6 +143,7 @@ else //inline
 <!--template and scripts-->
 @if (Model.RenderSharedScript)
 {
+<<<<<<< HEAD
     //template scripts are different for jquery ui
     if (Model.UIStyle == UploadUI.JQueryUI)
     {
@@ -164,6 +165,48 @@ else //inline
                 <td>
                     {% if (!i && !o.options.autoUpload) { %}
                         <button class="start">Start</button>
+=======
+    <!-- The template to display files available for upload -->
+    <script id="template-upload" type="text/x-tmpl">
+    {% for (var i=0, file; file=o.files[i]; i++) { %}
+        <tr class="template-upload fade">
+            <td>
+                <span class="preview"></span>
+            </td>
+            <td>
+                <p class="name">{%=file.name%}</p>
+                <strong class="error text-danger"></strong>
+            </td>
+            <td>
+                <p class="size">Processing...</p>
+                <div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="progress-bar progress-bar-success" style="width:0%;"></div></div>
+            </td>
+            <td>
+                {% if (!i && !o.options.autoUpload) { %}
+                    <button class="btn btn-primary start">
+                        <i class="glyphicon glyphicon-upload"></i>
+                        <span>Start</span>
+                    </button>
+                {% } %}
+                {% if (!i) { %}
+                    <button class="btn btn-warning cancel">
+                        <i class="glyphicon glyphicon-ban-circle"></i>
+                        <span>Cancel</span>
+                    </button>
+                {% } %}
+            </td>
+        </tr>
+    {% } %}
+    </script>
+    <!-- The template to display files available for download -->
+    <script id="template-download" type="text/x-tmpl">
+    {% for (var i=0, file; file=o.files[i]; i++) { %}
+        <tr class="template-download fade">
+            <td>
+                <span class="preview">
+                    {% if (file.thumbnailUrl) { %}
+                        <a href="{%=file.url%}" title="{%=file.name%}" download="{%=file.name%}" data-gallery><img src="{%=file.thumbnailUrl%}"></a>
+>>>>>>> e840054423d6a532e124a8143acbcffefb9aeb33
                     {% } %}
                     {% if (!i) { %}
                         <button class="cancel">Cancel</button>

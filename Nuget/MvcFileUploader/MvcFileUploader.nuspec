@@ -3,22 +3,14 @@
   <metadata>
     <id>MvcFileUploader</id>
 	<title>MvcFileUploader</title>
-<<<<<<< HEAD
-    <version>1.3.5</version>
-=======
-    <version>1.3.4</version>
->>>>>>> e840054423d6a532e124a8143acbcffefb9aeb33
+    <version>1.3.5</version>    
     <authors>maruf, Sebastian Tschan (JQuery Plugin)</authors>
     <owners>maruf</owners>
     <licenseUrl>http://opensource.org/licenses/MIT</licenseUrl>
     <projectUrl>https://github.com/marufbd/MvcFileUploader</projectUrl>    
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Easy file upload integration in mvc application with JQuery File Upload javascript plugin and Html helpers</description>
-<<<<<<< HEAD
-    <releaseNotes>MaxNumberOfFiles, DisableImagePreview by helper api, demo serverside error generate</releaseNotes>    
-=======
-    <releaseNotes>Bug fix</releaseNotes>
->>>>>>> e840054423d6a532e124a8143acbcffefb9aeb33
+    <releaseNotes>MaxNumberOfFiles, DisableImagePreview by helper api, demo serverside error generate</releaseNotes>
     <tags>FileUpload, JQuery File Upload, Mvc</tags>
     <dependencies>
 	  <!--

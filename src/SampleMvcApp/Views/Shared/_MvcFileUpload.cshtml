@@ -143,7 +143,7 @@ else //inline
 <!--template and scripts-->
 @if (Model.RenderSharedScript)
 {
-<<<<<<< HEAD
+
     //template scripts are different for jquery ui
     if (Model.UIStyle == UploadUI.JQueryUI)
     {
@@ -165,7 +165,7 @@ else //inline
                 <td>
                     {% if (!i && !o.options.autoUpload) { %}
                         <button class="start">Start</button>
-=======
+
     <!-- The template to display files available for upload -->
     <script id="template-upload" type="text/x-tmpl">
     {% for (var i=0, file; file=o.files[i]; i++) { %}
@@ -206,7 +206,6 @@ else //inline
                 <span class="preview">
                     {% if (file.thumbnailUrl) { %}
                         <a href="{%=file.url%}" title="{%=file.name%}" download="{%=file.name%}" data-gallery><img src="{%=file.thumbnailUrl%}"></a>
->>>>>>> e840054423d6a532e124a8143acbcffefb9aeb33
                     {% } %}
                     {% if (!i) { %}
                         <button class="cancel">Cancel</button>

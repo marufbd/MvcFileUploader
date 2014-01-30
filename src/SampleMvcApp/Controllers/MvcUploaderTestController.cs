@@ -41,7 +41,7 @@ namespace SampleMvcApp.Controllers
                 });
 
                 statuses.Add(st);
-            }
+            }            
 
             //statuses contains all the uploaded files details (if error occurs then check error property is not null or empty)
             //todo: add additional code to generate thumbnail for videos, associate files with entities etc
@@ -51,6 +51,20 @@ namespace SampleMvcApp.Controllers
 
             //setting custom download url instead of direct url to file which is default
             statuses.ForEach(x => x.url = Url.Action("DownloadFile", new { fileUrl = x.url, mimetype = x.type }));
+
+
+            //server side error generation, generate some random error if entity id is 13
+            if (entityId == 13)
+            {
+                var rnd = new Random();
+                statuses.ForEach(x =>
+                {
+                    //setting the error property removes the deleteUrl, thumbnailUrl and url property values
+                    x.error = rnd.Next(0, 2) > 0 ? "We do not have any entity with unlucky Id : '13'" : String.Format("Your file size is {0} bytes which is un-acceptable", x.size);
+                    //delete file by using FullPath property
+                    if (System.IO.File.Exists(x.FullPath)) System.IO.File.Delete(x.FullPath);
+                });
+            }
 
             var viewresult = Json(new {files = statuses});
             //for IE8 which does not accept application/json

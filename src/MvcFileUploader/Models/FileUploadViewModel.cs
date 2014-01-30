@@ -11,10 +11,12 @@ namespace MvcFileUploader.Models
         }
         public string FileTypes { get; set; } // jquery-image-upload format expression string
         public long MaxFileSizeInBytes { get; set; }
+        public int? MaxNumberOfFiles { get; set; }
         public string UploadUrl { get; set; }
 
+        public bool DisableImagePreview { get; set; }
         public bool IsDialog { get; set; }
-        public bool RenderSharedScript { get; set; }     
+        public bool RenderSharedScript { get; set; }  
 
         public UploadUI UIStyle { get; set; }
 

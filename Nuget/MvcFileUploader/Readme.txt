@@ -5,6 +5,13 @@ Go to http://yousite/MvcUploaderTest/Demo
 
 To see demo usages for the uploader in different modes uploading multiple files
 
+version 1.3.5
+====================
+* MaxNumberOfFiles, DisableImagePreview by helper api, demo serverside error generate
+
+version 1.3.4
+====================
+* Bug fix
 
 version 1.3.3
 ====================

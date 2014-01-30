@@ -1,5 +1,5 @@
 /*
- * jQuery File Upload Image Preview & Resize Plugin 1.3.1
+ * jQuery File Upload Image Preview & Resize Plugin 1.7.0
  * https://github.com/blueimp/jQuery-File-Upload
  *
  * Copyright 2013, Sebastian Tschan
@@ -9,8 +9,8 @@
  * http://www.opensource.org/licenses/MIT
  */
 
-/*jslint nomen: true, unparam: true, regexp: true */
-/*global define, window, document, DataView, Blob, Uint8Array */
+/* jshint nomen:false */
+/* global define, window, Blob */
 
 (function (factory) {
     'use strict';
@@ -65,10 +65,13 @@
             minHeight: '@',
             crop: '@',
             orientation: '@',
+            forceResize: '@',
             disabled: '@disableImageResize'
         },
         {
             action: 'saveImage',
+            quality: '@imageQuality',
+            type: '@imageType',
             disabled: '@disableImageResize'
         },
         {
@@ -93,6 +96,10 @@
             action: 'setImage',
             name: '@imagePreviewName',
             disabled: '@disableImagePreview'
+        },
+        {
+            action: 'deleteImageReferences',
+            disabled: '@disableImageReferencesDeletion'
         }
     );
 
@@ -179,7 +186,8 @@
                     img = (options.canvas && data.canvas) || data.img,
                     resolve = function (newImg) {
                         if (newImg && (newImg.width !== img.width ||
-                                newImg.height !== img.height)) {
+                                newImg.height !== img.height ||
+                                options.forceResize)) {
                             data[newImg.getContext ? 'canvas' : 'img'] = newImg;
                         }
                         data.preview = newImg;
@@ -213,35 +221,32 @@
                 }
                 var that = this,
                     file = data.files[data.index],
-                    name = file.name,
-                    dfd = $.Deferred(),
-                    callback = function (blob) {
-                        if (!blob.name) {
-                            if (file.type === blob.type) {
-                                blob.name = file.name;
-                            } else if (file.name) {
-                                blob.name = file.name.replace(
-                                    /\..+$/,
-                                    '.' + blob.type.substr(6)
-                                );
+                    dfd = $.Deferred();
+                if (data.canvas.toBlob) {
+                    data.canvas.toBlob(
+                        function (blob) {
+                            if (!blob.name) {
+                                if (file.type === blob.type) {
+                                    blob.name = file.name;
+                                } else if (file.name) {
+                                    blob.name = file.name.replace(
+                                        /\..+$/,
+                                        '.' + blob.type.substr(6)
+                                    );
+                                }
                             }
-                        }
-                        // Store the created blob at the position
-                        // of the original file in the files list:
-                        data.files[data.index] = blob;
-                        dfd.resolveWith(that, [data]);
-                    };
-                // Use canvas.mozGetAsFile directly, to retain the filename, as
-                // Gecko doesn't support the filename option for FormData.append:
-                if (data.canvas.mozGetAsFile) {
-                    callback(data.canvas.mozGetAsFile(
-                        (/^image\/(jpeg|png)$/.test(file.type) && name) ||
-                            ((name && name.replace(/\..+$/, '')) ||
-                                'blob') + '.png',
-                        file.type
-                    ));
-                } else if (data.canvas.toBlob) {
-                    data.canvas.toBlob(callback, file.type);
+                            // Don't restore invalid meta data:
+                            if (file.type !== blob.type) {
+                                delete data.imageHead;
+                            }
+                            // Store the created blob at the position
+                            // of the original file in the files list:
+                            data.files[data.index] = blob;
+                            dfd.resolveWith(that, [data]);
+                        },
+                        options.type || file.type,
+                        options.quality
+                    );
                 } else {
                     return data;
                 }
@@ -283,6 +288,16 @@
             setImage: function (data, options) {
                 if (data.preview && !options.disabled) {
                     data.files[data.index][options.name || 'preview'] = data.preview;
+                }
+                return data;
+            },
+
+            deleteImageReferences: function (data, options) {
+                if (!options.disabled) {
+                    delete data.img;
+                    delete data.canvas;
+                    delete data.preview;
+                    delete data.imageHead;
                 }
                 return data;
             }

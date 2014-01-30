@@ -1,5 +1,5 @@
 /*
- * jQuery File Upload User Interface Plugin 9.0.0
+ * jQuery File Upload User Interface Plugin 9.4.1
  * https://github.com/blueimp/jQuery-File-Upload
  *
  * Copyright 2010, Sebastian Tschan
@@ -9,8 +9,8 @@
  * http://www.opensource.org/licenses/MIT
  */
 
-/*jslint nomen: true, unparam: true, regexp: true */
-/*global define, window, URL, webkitURL, FileReader */
+/* jshint nomen:false */
+/* global define, window */
 
 (function (factory) {
     'use strict';
@@ -31,7 +31,7 @@
             window.tmpl
         );
     }
-}(function ($, tmpl, loadImage) {
+}(function ($, tmpl) {
     'use strict';
 
     $.blueimp.fileupload.prototype._specialOptions.push(
@@ -517,12 +517,12 @@
             var template = $(e.currentTarget)
                     .closest('.template-upload,.template-download'),
                 data = template.data('data') || {};
-            if (!data.jqXHR) {
-                data.context = data.context || template;
+            data.context = data.context || template;
+            if (data.abort) {
+                data.abort();
+            } else {
                 data.errorThrown = 'abort';
                 this._trigger('fail', e, data);
-            } else {
-                data.jqXHR.abort();
             }
         },
 

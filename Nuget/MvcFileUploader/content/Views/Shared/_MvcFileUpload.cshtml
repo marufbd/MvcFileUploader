@@ -1,13 +1,15 @@
-﻿@using MvcFileUploader.Models
+﻿@using System.Globalization
+@using MvcFileUploader.Models
 @model MvcFileUploader.Models.FileUploadViewModel
 @{
-    var formId = "fileupload" + Guid.NewGuid();
-    var fileInputId = "file" + Guid.NewGuid();
+    var formId = "fileupload" + Guid.NewGuid();    
+
+    var maxNoOfFiles = Model.MaxNumberOfFiles.HasValue ? Model.MaxNumberOfFiles.Value.ToString(CultureInfo.InvariantCulture) : "undefined";
 }
         
 <!-- file upload dialog/inline form-->
 
-@if (Model.IsDialog)
+@if (Model.IsDialog) //popup dialog
 {
     <div class="modal-dialog">
         <div class="modal-content">
@@ -29,7 +31,14 @@
                             <span class="btn btn-success fileinput-button">
                                 <i class="glyphicon glyphicon-plus"></i>
                                 <span>Add files...</span>
-                                <input type="file" name="files[]" multiple>
+                                @if (Model.MaxNumberOfFiles == 1)
+                                {
+                                    <input type="file" name="files[]"/>
+                                }
+                                else
+                                {
+                                    <input type="file" name="files[]" multiple/>
+                                }                                
                             </span>
                             <button type="submit" class="btn btn-primary start">
                                 <i class="glyphicon glyphicon-upload"></i>
@@ -73,7 +82,7 @@
     </div>
 }
 
-else
+else //inline
 {
     <form id="@formId" action="@Model.UploadUrl" method="POST" enctype="multipart/form-data">        
         <div class="row fileupload-buttonbar">                    
@@ -82,7 +91,14 @@ else
                 <span class="btn btn-success fileinput-button">
                     <i class="glyphicon glyphicon-plus"></i>
                     <span>Add files...</span>
-                    <input type="file" name="files[]" multiple>
+                    @if (Model.MaxNumberOfFiles == 1)
+                    {
+                        <input type="file" name="files[]"/>
+                    }
+                    else
+                    {
+                        <input type="file" name="files[]" multiple/>
+                    }                                
                 </span>
                 <button type="submit" class="btn btn-primary start">
                     <i class="glyphicon glyphicon-upload"></i>
@@ -127,82 +143,145 @@ else
 <!--template and scripts-->
 @if (Model.RenderSharedScript)
 {
-    <!-- The template to display files available for upload -->
-    <script id="template-upload" type="text/x-tmpl">
-    {% for (var i=0, file; file=o.files[i]; i++) { %}
-        <tr class="template-upload fade">
-            <td>
-                <span class="preview"></span>
-            </td>
-            <td>
-                <p class="name">{%=file.name%}</p>
-                <strong class="error text-danger"></strong>
-            </td>
-            <td>
-                <p class="size">Processing...</p>
-                <div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="progress-bar progress-bar-success" style="width:0%;"></div></div>
-            </td>
-            <td>
-                {% if (!i && !o.options.autoUpload) { %}
-                    <button class="btn btn-primary start" disabled>
-                        <i class="glyphicon glyphicon-upload"></i>
-                        <span>Start</span>
-                    </button>
-                {% } %}
-                {% if (!i) { %}
-                    <button class="btn btn-warning cancel">
-                        <i class="glyphicon glyphicon-ban-circle"></i>
-                        <span>Cancel</span>
-                    </button>
-                {% } %}
-            </td>
-        </tr>
-    {% } %}
-    </script>
-    <!-- The template to display files available for download -->
-    <script id="template-download" type="text/x-tmpl">
-    {% for (var i=0, file; file=o.files[i]; i++) { %}
-        <tr class="template-download fade">
-            <td>
-                <span class="preview">
-                    {% if (file.thumbnailUrl) { %}
-                        <a href="{%=file.url%}" title="{%=file.name%}" download="{%=file.name%}" data-gallery><img src="{%=file.thumbnailUrl%}"></a>
+    //template scripts are different for jquery ui
+    if (Model.UIStyle == UploadUI.JQueryUI)
+    {
+        <!-- The template to display files available for upload for jquery ui -->
+        <script id="template-upload" type="text/x-tmpl">
+        {% for (var i=0, file; file=o.files[i]; i++) { %}
+            <tr class="template-upload fade">
+                <td>
+                    <span class="preview"></span>
+                </td>
+                <td>
+                    <p class="name">{%=file.name%}</p>
+                    <strong class="error"></strong>
+                </td>
+                <td>
+                    <p class="size">Processing...</p>
+                    <div class="progress"></div>
+                </td>
+                <td>
+                    {% if (!i && !o.options.autoUpload) { %}
+                        <button class="start">Start</button>
                     {% } %}
-                </span>
-            </td>
-            <td>
-                <p class="name">
-                    {% if (file.url) { %}
+                    {% if (!i) { %}
+                        <button class="cancel">Cancel</button>
+                    {% } %}
+                </td>
+            </tr>
+        {% } %}
+        </script>
+        <!-- The template to display files available for download for jquery ui -->
+        <script id="template-download" type="text/x-tmpl">
+        {% for (var i=0, file; file=o.files[i]; i++) { %}
+            <tr class="template-download fade">
+                <td>
+                    <span class="preview">
+                        {% if (file.thumbnailUrl) { %}
+                            <a href="{%=file.url%}" title="{%=file.name%}" download="{%=file.name%}" data-gallery><img src="{%=file.thumbnailUrl%}"></a>
+                        {% } %}
+                    </span>
+                </td>
+                <td>
+                    <p class="name">
                         <a href="{%=file.url%}" title="{%=file.name%}" download="{%=file.name%}" {%=file.thumbnailUrl?'data-gallery':''%}>{%=file.name%}</a>
-                    {% } else { %}
-                        <span>{%=file.name%}</span>
+                    </p>
+                    {% if (file.error) { %}
+                        <div><span class="error">Error</span> {%=file.error%}</div>
                     {% } %}
-                </p>
-                {% if (file.error) { %}
-                    <div><span class="label label-danger">Error</span> {%=file.error%}</div>
-                {% } %}
-            </td>
-            <td>
-                <span class="size">{%=o.formatFileSize(file.size)%}</span>
-            </td>
-            <td>
-                {% if (file.deleteUrl) { %}
-                    <button class="btn btn-danger delete" data-type="{%=file.deleteType%}" data-url="{%=file.deleteUrl%}"{% if (file.deleteWithCredentials) { %} data-xhr-fields='{"withCredentials":true}'{% } %}>
-                        <i class="glyphicon glyphicon-trash"></i>
-                        <span>Delete</span>
-                    </button>
+                </td>
+                <td>
+                    <span class="size">{%=o.formatFileSize(file.size)%}</span>
+                </td>
+                <td>
+                    <button class="delete" data-type="{%=file.deleteType%}" data-url="{%=file.deleteUrl%}"{% if (file.deleteWithCredentials) { %} data-xhr-fields='{"withCredentials":true}'{% } %}>Delete</button>
                     <input type="checkbox" name="delete" value="1" class="toggle">
-                {% } else { %}
-                    <button class="btn btn-warning cancel">
-                        <i class="glyphicon glyphicon-ban-circle"></i>
-                        <span>Cancel</span>
-                    </button>
-                {% } %}
-            </td>
-        </tr>
-    {% } %}
-    </script>
-        
+                </td>
+            </tr>
+        {% } %}
+        </script>
+    }
+    else
+    {
+        <!-- The template to display files available for upload -->
+        <script id="template-upload" type="text/x-tmpl">
+        {% for (var i=0, file; file=o.files[i]; i++) { %}
+            <tr class="template-upload fade">
+                <td>
+                    <span class="preview"></span>
+                </td>
+                <td>
+                    <p class="name">{%=file.name%}</p>
+                    <strong class="error text-danger"></strong>
+                </td>
+                <td>
+                    <p class="size">Processing...</p>
+                    <div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="progress-bar progress-bar-success" style="width:0%;"></div></div>
+                </td>
+                <td>
+                    {% if (!i && !o.options.autoUpload) { %}
+                        <button class="btn btn-primary start" disabled>
+                            <i class="glyphicon glyphicon-upload"></i>
+                            <span>Start</span>
+                        </button>
+                    {% } %}
+                    {% if (!i) { %}
+                        <button class="btn btn-warning cancel">
+                            <i class="glyphicon glyphicon-ban-circle"></i>
+                            <span>Cancel</span>
+                        </button>
+                    {% } %}
+                </td>
+            </tr>
+        {% } %}
+        </script>
+        <!-- The template to display files available for download -->
+        <script id="template-download" type="text/x-tmpl">
+        {% for (var i=0, file; file=o.files[i]; i++) { %}
+            <tr class="template-download fade">
+                <td>
+                    <span class="preview">
+                        {% if (file.thumbnailUrl) { %}
+                            <a href="{%=file.url%}" title="{%=file.name%}" download="{%=file.name%}" data-gallery><img src="{%=file.thumbnailUrl%}"></a>
+                        {% } %}
+                    </span>
+                </td>
+                <td>
+                    <p class="name">
+                        {% if (file.url) { %}
+                            <a href="{%=file.url%}" title="{%=file.name%}" download="{%=file.name%}" {%=file.thumbnailUrl?'data-gallery':''%}>{%=file.name%}</a>
+                        {% } else { %}
+                            <span>{%=file.name%}</span>
+                        {% } %}
+                    </p>
+                    {% if (file.error) { %}
+                        <div><span class="label label-danger">Error</span> {%=file.error%}</div>
+                    {% } %}
+                </td>
+                <td>
+                    <span class="size">{%=o.formatFileSize(file.size)%}</span>
+                </td>
+                <td>
+                    {% if (file.deleteUrl) { %}
+                        <button class="btn btn-danger delete" data-type="{%=file.deleteType%}" data-url="{%=file.deleteUrl%}"{% if (file.deleteWithCredentials) { %} data-xhr-fields='{"withCredentials":true}'{% } %}>
+                            <i class="glyphicon glyphicon-trash"></i>
+                            <span>Delete</span>
+                        </button>
+                        <input type="checkbox" name="delete" value="1" class="toggle">
+                    {% } else { %}
+                        <button class="btn btn-warning cancel">
+                            <i class="glyphicon glyphicon-ban-circle"></i>
+                            <span>Cancel</span>
+                        </button>
+                    {% } %}
+                </td>
+            </tr>
+        {% } %}
+        </script>
+    }
+
+
     <!-- Blueimp Jquery File Upload-->
     
     <script type="text/javascript" src="/Scripts/mvcfileupload/blueimp/jquery.ui.widget.js"></script>
@@ -216,8 +295,8 @@ else
     <script type="text/javascript" src="/Scripts/mvcfileupload/blueimp/jquery.fileupload.js"></script>
     <script type="text/javascript" src="/Scripts/mvcfileupload/blueimp/jquery.fileupload-process.js"></script>
     <script type="text/javascript" src="/Scripts/mvcfileupload/blueimp/jquery.fileupload-image.js"></script>
-    <script type="text/javascript" src="/Scripts/mvcfileupload/blueimp/jquery.fileupload-ui.js"></script>
     <script type="text/javascript" src="/Scripts/mvcfileupload/blueimp/jquery.fileupload-validate.js"></script>
+    <script type="text/javascript" src="/Scripts/mvcfileupload/blueimp/jquery.fileupload-ui.js"></script>    
     
     <!-- Blueimp styles / see blueimp docs for styling requirements for jquery ui -->
     <link rel="stylesheet" href="/Content/mvcfileupload/blueimp/jquery.fileupload.css">
@@ -236,7 +315,9 @@ else
     $('#@(formId)').fileupload({url: '@Model.UploadUrl'});
 
     $('#@(formId)').fileupload('option', { 
-        maxFileSize: @Model.MaxFileSizeInBytes,
+        maxFileSize: @Model.MaxFileSizeInBytes,        
+        maxNumberOfFiles: @maxNoOfFiles,
+        disableImagePreview: @(Model.DisableImagePreview ? "true" : "false"),
         resizeMaxWidth: 1920,
         resizeMaxHeight: 1200,
         acceptFileTypes: @Model.FileTypes

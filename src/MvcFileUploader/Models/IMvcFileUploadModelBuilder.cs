@@ -12,6 +12,8 @@ namespace MvcFileUploader.Models
         IMvcFileUploadModelBuilder ReturnAt(string url);
         IMvcFileUploadModelBuilder WithFileTypes(string fileTypes);
         IMvcFileUploadModelBuilder WithMaxFileSize(long sizeInBytes);
+        IMvcFileUploadModelBuilder MaxNumberOfFiles(int maxNoOfFiles);
+        IMvcFileUploadModelBuilder DisableImagePreview();
 
         IMvcFileUploadModelBuilder AddFormField(string fieldName, string fieldValue);
         IMvcFileUploadModelBuilder Template(string template);

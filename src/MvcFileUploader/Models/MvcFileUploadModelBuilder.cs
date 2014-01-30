@@ -14,11 +14,13 @@ namespace MvcFileUploader.Models
         private readonly HtmlHelper _helper;
 
         private string _returnUrl = "#";
-        private string _fileTypes = ""; // jquery-image-upload format expression string
+        private string _fileTypes = @"/(\.|\/)(.+)$/i"; // jquery-image-upload format expression string
         private long _maxFileSizeInBytes = 10485760; // in bytes, default 10MB
+        private int? _maxNoOfFiles = null;
         private string _uploadUrl = "/upload"; 
         private string _renderType = "link";
         private string _template = "_MvcFileUpload";
+        private bool _disableImagePreview = false;
 
         private bool _includeScriptAndTemplate = true;
 
@@ -36,6 +38,8 @@ namespace MvcFileUploader.Models
                        {
                            FileTypes = _fileTypes,
                            MaxFileSizeInBytes = _maxFileSizeInBytes,
+                           MaxNumberOfFiles = _maxNoOfFiles,
+                           DisableImagePreview = _disableImagePreview,
                            UploadUrl = _uploadUrl,
                            UIStyle = _uiStyle,
                            ReturnUrl = _returnUrl??"#",
@@ -50,6 +54,8 @@ namespace MvcFileUploader.Models
             {
                 FileTypes = _fileTypes,
                 MaxFileSizeInBytes = _maxFileSizeInBytes,
+                MaxNumberOfFiles=_maxNoOfFiles,
+                DisableImagePreview=_disableImagePreview,
                 UploadUrl = _uploadUrl,
                 UIStyle = _uiStyle,
                 ReturnUrl = _returnUrl ?? "#",
@@ -88,6 +94,20 @@ namespace MvcFileUploader.Models
         public IMvcFileUploadModelBuilder WithMaxFileSize(long sizeInBytes)
         {
             _maxFileSizeInBytes = sizeInBytes;
+
+            return this;
+        }
+
+        public IMvcFileUploadModelBuilder MaxNumberOfFiles(int maxNoOfFiles)
+        {
+            _maxNoOfFiles = maxNoOfFiles;
+
+            return this;
+        }
+
+        public IMvcFileUploadModelBuilder DisableImagePreview()
+        {
+            _disableImagePreview = true;
 
             return this;
         }

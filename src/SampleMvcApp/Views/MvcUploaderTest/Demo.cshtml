@@ -16,21 +16,23 @@
 @if(!showingInline)
 {
     <div class="well">
-        <legend>Upload Dialog</legend> 
+        <legend>Upload Dialog</legend>
+        <p class="help-block">jpg/png size max 5 MB, single file upload</p>
         @(
         Html.MvcFileUpload()
         .UploadAt(Url.Action("UploadFile"))
         .WithFileTypes(@"/(\.|\/)(jpe?g|png)$/i")
         .WithMaxFileSize(5000000)
-        .AddFormField("entityId", "1234")
-        //.AddFormField("groupId", "grp123")
+        .MaxNumberOfFiles(1)
+        .AddFormField("entityId", "1234")        
         .RenderPopup("Upload", "#dlgFileUpload", new {@class="btn btn-large btn-primary"})
         )
     </div>
 
 
     <div class="well">
-        <legend>Upload Dialog with return url on closing</legend>
+        <legend>Upload Dialog with return url on closing</legend>        
+        <p class="help-block">jpg/png size max 5 MB</p>
         @(
         Html.MvcFileUpload()
         .UploadAt(Url.Action("UploadFile"))        
@@ -54,12 +56,13 @@
 {
     <div class="well">
         <legend>Upload Inline</legend>
+        <p class="help-block">jpg/png size max 5 MB</p>
         @(
         Html.MvcFileUpload()
         .UploadAt(Url.Action("UploadFile"))
         .UIStyle(ui)
         .WithFileTypes(@"/(\.|\/)(jpe?g|png)$/i")
-        .WithMaxFileSize(5000000)
+        .WithMaxFileSize(5000000)        
         .AddFormField("entityId", "1234")
         .RenderInline("_MvcFileupload")
         )
@@ -68,15 +71,32 @@
     
     <div class="well">
         <legend>Another inline uploader in same page</legend>
+        <p class="help-block">jpg/png size max 5 MB, max number of files 1, image preview disabled</p>
+        <p class="help-block">note: do not set thumbnailUrl in returned json from server side controller in case image preview is disabled, in this demo it is being set, so tumbnail is shown after upload.</p>
         @(
-        Html.MvcFileUpload()        
-        .UploadAt(Url.Action("UploadFile"))        
+        Html.MvcFileUpload() 
+        .UploadAt(Url.Action("UploadFile")) 
         .WithFileTypes(@"/(\.|\/)(jpe?g|png)$/i")
         .WithMaxFileSize(5000000)
+        .MaxNumberOfFiles(1)
+        .DisableImagePreview()
         .ExcludeSharedScript()  //this should be called as this page contains another inline widget which loaded shared scripts
         .RenderInline("_MvcFileupload")
         )
     </div>       
+    
+    <div class="well">
+        <legend>Server side error generation</legend>
+        <p class="help-block">Randomly generates error file size or entityId error from server side controller code.</p>
+        @(
+        Html.MvcFileUpload() 
+        .UploadAt(Url.Action("UploadFile"))
+        .WithMaxFileSize(5000000) 
+        .AddFormField("entityId", "13")
+        .ExcludeSharedScript()  //this should be called as this page contains another inline widget which loaded shared scripts
+        .RenderInline("_MvcFileupload")
+        )
+    </div>
     
     <p>
         @Html.ActionLink("Show "+toggleUi+" ui", "Demo", new {inline=true, ui=toggleUi}, new {@class="btn btn-info"})

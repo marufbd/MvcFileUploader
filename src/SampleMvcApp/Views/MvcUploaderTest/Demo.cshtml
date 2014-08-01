@@ -75,7 +75,7 @@
         <p class="help-block">note: do not set thumbnailUrl in returned json from server side controller in case image preview is disabled, in this demo it is being set, so tumbnail is shown after upload.</p>
         @(
         Html.MvcFileUpload() 
-        .UploadAt(Url.Action("UploadFile")) 
+        .UploadAt(Url.Action("UploadFile"))
         .WithFileTypes(@"/(\.|\/)(jpe?g|png)$/i")
         .WithMaxFileSize(5000000)
         .MaxNumberOfFiles(1)

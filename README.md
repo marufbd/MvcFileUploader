@@ -1,6 +1,8 @@
 MvcFileUploader
 ===============
 
+[![Build status](https://ci.appveyor.com/api/projects/status/fg03dob61g9nx1da?svg=true)](https://ci.appveyor.com/project/marufbd/mvcfileuploader)
+
 A nuget package for easy blueimp JQuery file upload plugin integration into an ASP.NET Mvc application
 
 

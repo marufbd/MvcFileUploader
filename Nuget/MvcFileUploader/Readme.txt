@@ -7,6 +7,10 @@ To see demo usages for the uploader in different modes uploading multiple files
 
 version 1.3.5
 ====================
+* Bug fixes: drag n drop multiple, maxnooffiles, ie11 issues
+
+version 1.3.5
+====================
 * MaxNumberOfFiles, DisableImagePreview by helper api, demo serverside error generate
 
 version 1.3.4

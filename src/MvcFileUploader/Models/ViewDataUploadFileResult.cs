@@ -1,7 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿/*
+ * MvcFileUploader utility
+ * https://github.com/marufbd/MvcFileUploader
+ *
+ * Copyright 2015, Maruf Rahman
+ *
+ * Licensed under the MIT license:
+ * http://www.opensource.org/licenses/MIT
+ */
+
+using System;
 
 namespace MvcFileUploader.Models
 {

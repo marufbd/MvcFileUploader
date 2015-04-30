@@ -1,3 +1,13 @@
+/*
+ * MvcFileUploader utility
+ * https://github.com/marufbd/MvcFileUploader
+ *
+ * Copyright 2015, Maruf Rahman
+ *
+ * Licensed under the MIT license:
+ * http://www.opensource.org/licenses/MIT
+ */
+
 using System.Collections.Generic;
 
 namespace MvcFileUploader.Models

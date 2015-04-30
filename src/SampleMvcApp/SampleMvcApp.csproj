@@ -130,17 +130,17 @@
     <Content Include="Content\mvcfileupload\images\loading.gif" />
     <Content Include="Content\mvcfileupload\images\progressbar.gif" />
     <Content Include="Content\mvcfileupload\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Content\mvcfileupload\vendor\bootstrap.min.css" />
     <Content Include="Scripts\mvcfileupload\blueimp\canvas-to-blob.min.js" />
     <Content Include="Scripts\mvcfileupload\blueimp\jquery.fileupload-image.js" />
     <Content Include="Scripts\mvcfileupload\blueimp\jquery.fileupload-jquery-ui.js" />
     <Content Include="Scripts\mvcfileupload\blueimp\jquery.fileupload-process.js" />
     <Content Include="Scripts\mvcfileupload\blueimp\jquery.fileupload-ui.js" />
     <Content Include="Scripts\mvcfileupload\blueimp\jquery.fileupload-validate.js" />
-    <Content Include="Scripts\mvcfileupload\blueimp\load-image.min.js" />
     <Content Include="Scripts\mvcfileupload\blueimp\jquery.fileupload.js" />
     <Content Include="Scripts\mvcfileupload\blueimp\jquery.iframe-transport.js" />
+    <Content Include="Scripts\mvcfileupload\blueimp\load-image.min.js" />
     <Content Include="Scripts\mvcfileupload\blueimp\jquery.ui.widget.js" />
-    <Content Include="Content\mvcfileupload\vendor\bootstrap.min.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\jquery-1.6.2-vsdoc.js" />
@@ -226,6 +226,9 @@
     <Content Include="Content\mvcfileupload\fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Content\mvcfileupload\fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="Content\mvcfileupload\fonts\glyphicons-halflings-regular.woff" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\mvcfileupload\fonts\glyphicons-halflings-regular.woff2" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

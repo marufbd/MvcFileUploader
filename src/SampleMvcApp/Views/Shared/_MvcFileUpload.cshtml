@@ -318,17 +318,18 @@ else //inline
 <!--template and scripts end-->
 
 <script type="text/javascript">
-            
+
     // Initialize the jQuery File Upload widget:
     $('#@(formId)').fileupload({url: '@Model.UploadUrl'});
 
-    $('#@(formId)').fileupload('option', { 
-        maxFileSize: @Model.MaxFileSizeInBytes,        
+    $('#@(formId)').fileupload('option', {
+        dropZone: $('#@(formId)'),
+        maxFileSize: @Model.MaxFileSizeInBytes,
         maxNumberOfFiles: @maxNoOfFiles,
         disableImagePreview: @(Model.DisableImagePreview ? "true" : "false"),
         resizeMaxWidth: 1920,
         resizeMaxHeight: 1200,
         acceptFileTypes: @Model.FileTypes
-    });    
+        });
 
 </script>

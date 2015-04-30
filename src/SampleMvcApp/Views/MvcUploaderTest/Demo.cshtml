@@ -13,7 +13,7 @@
     Layout = "~/Views/Shared/" + (ui == UploadUI.Bootstrap ? "_MvcFileUploaderLayout.cshtml" : "_MvcFileUploaderLayout_jui.cshtml");
 }
 
-@if(!showingInline)
+@if (!showingInline)
 {
     <div class="well">
         <legend>Upload Dialog</legend>
@@ -22,8 +22,7 @@
         Html.MvcFileUpload()
         .UploadAt(Url.Action("UploadFile"))
         .WithFileTypes(@"/(\.|\/)(jpe?g|png)$/i")
-        .WithMaxFileSize(5000000)
-        .MaxNumberOfFiles(1)
+        .WithMaxFileSize(5000000)        
         .AddFormField("entityId", "1234")        
         .RenderPopup("Upload", "#dlgFileUpload", new {@class="btn btn-large btn-primary"})
         )
@@ -62,7 +61,7 @@
         .UploadAt(Url.Action("UploadFile"))
         .UIStyle(ui)
         .WithFileTypes(@"/(\.|\/)(jpe?g|png)$/i")
-        .WithMaxFileSize(5000000)        
+        .WithMaxFileSize(5000000)
         .AddFormField("entityId", "1234")
         .RenderInline("_MvcFileupload")
         )
@@ -71,14 +70,14 @@
     
     <div class="well">
         <legend>Another inline uploader in same page</legend>
-        <p class="help-block">jpg/png size max 5 MB, max number of files 1, image preview disabled</p>
+        <p class="help-block">jpg/png size max 5 MB, max number of files 2, image preview disabled</p>
         <p class="help-block">note: do not set thumbnailUrl in returned json from server side controller in case image preview is disabled, in this demo it is being set, so tumbnail is shown after upload.</p>
         @(
         Html.MvcFileUpload() 
         .UploadAt(Url.Action("UploadFile"))
         .WithFileTypes(@"/(\.|\/)(jpe?g|png)$/i")
         .WithMaxFileSize(5000000)
-        .MaxNumberOfFiles(1)
+        .MaxNumberOfFiles(2)
         .DisableImagePreview()
         .ExcludeSharedScript()  //this should be called as this page contains another inline widget which loaded shared scripts
         .RenderInline("_MvcFileupload")

@@ -1,5 +1,5 @@
 /*
- * jQuery File Upload Image Preview & Resize Plugin 1.7.0
+ * jQuery File Upload Image Preview & Resize Plugin 1.7.3
  * https://github.com/blueimp/jQuery-File-Upload
  *
  * Copyright 2013, Sebastian Tschan
@@ -10,7 +10,7 @@
  */
 
 /* jshint nomen:false */
-/* global define, window, Blob */
+/* global define, require, window, Blob */
 
 (function (factory) {
     'use strict';
@@ -25,6 +25,12 @@
             'canvas-to-blob',
             './jquery.fileupload-process'
         ], factory);
+    } else if (typeof exports === 'object') {
+        // Node/CommonJS:
+        factory(
+            require('jquery'),
+            require('load-image')
+        );
     } else {
         // Browser globals:
         factory(
@@ -110,7 +116,7 @@
         options: {
             // The regular expression for the types of images to load:
             // matched against the file type:
-            loadImageFileTypes: /^image\/(gif|jpeg|png)$/,
+            loadImageFileTypes: /^image\/(gif|jpeg|png|svg\+xml)$/,
             // The maximum file size of images to load:
             loadImageMaxFileSize: 10000000, // 10MB
             // The maximum width of resized images:
@@ -204,6 +210,12 @@
                             loadImage(thumbnail, resolve, options);
                             return dfd.promise();
                         }
+                    }
+                    // Prevent orienting the same image twice:
+                    if (data.orientation) {
+                        delete options.orientation;
+                    } else {
+                        data.orientation = options.orientation;
                     }
                 }
                 if (img) {
